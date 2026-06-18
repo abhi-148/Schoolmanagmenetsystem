@@ -14,7 +14,11 @@ import {
   Menu,
   X,
   Moon,
-  Sun
+  Sun,
+  BookOpen,
+  CalendarDays,
+  FileText,
+  Clock3
 } from "lucide-react";
 
 import {
@@ -236,6 +240,26 @@ function Sidebar() {
             )}
 
             <li>
+  <Link
+    to="/school-branches"
+    className={linkClass("/school-branches")}
+  >
+    <School size={20} />
+    School Branches
+  </Link>
+</li>
+
+<li>
+  <Link
+    to="/school-classes"
+    className={linkClass("/school-classes")}
+  >
+    <BookOpen size={20} />
+    School Classes
+  </Link>
+</li>
+
+            <li>
               <Link
                 to="/staff"
                 className={linkClass(
@@ -330,6 +354,109 @@ function Sidebar() {
                 Fees
               </Link>
             </li>
+
+            <li>
+  <Link
+    to="/fee-structure"
+    className={linkClass(
+      "/fee-structure"
+    )}
+    onClick={() =>
+      setIsOpen(false)
+    }
+  >
+    <CreditCard size={20} />
+    Fee Structure
+  </Link>
+</li>
+
+<li>
+  <Link
+    to="/student-fees"
+    className={linkClass(
+      "/student-fees"
+    )}
+    onClick={() =>
+      setIsOpen(false)
+    }
+  >
+    <CreditCard size={20} />
+    Fee Collection
+  </Link>
+</li>
+<li>
+  <Link
+    to="/classes"
+    className={linkClass(
+      "/classes"
+    )}
+    onClick={() =>
+      setIsOpen(false)
+    }
+  >
+    <BookOpen size={20} />
+    Classes
+  </Link>
+</li>
+<li>
+  <Link
+    to="/exams"
+    className={linkClass(
+      "/exams"
+    )}
+    onClick={() =>
+      setIsOpen(false)
+    }
+  >
+    <BookOpen size={20} />
+    Exams
+  </Link>
+</li>
+
+<li>
+  <Link
+    to="/student-marks"
+    className={linkClass(
+      "/student-marks"
+    )}
+    onClick={() =>
+      setIsOpen(false)
+    }
+  >
+    <FileText size={20} />
+    Student Marks
+  </Link>
+</li>
+
+<li>
+  <Link
+    to="/report-card"
+    className={linkClass(
+      "/report-card"
+    )}
+    onClick={() =>
+      setIsOpen(false)
+    }
+  >
+    <FileText size={20} />
+    Report Card
+  </Link>
+</li>
+
+<li>
+  <Link
+    to="/timetable"
+    className={linkClass(
+      "/timetable"
+    )}
+    onClick={() =>
+      setIsOpen(false)
+    }
+  >
+    <Clock3 size={20} />
+    Timetable
+  </Link>
+</li>
 
             <li>
               <Link

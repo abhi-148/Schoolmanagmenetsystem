@@ -1,20 +1,25 @@
 import { useState } from "react";
 
-function AddStudent({ onAdd }) {
+function AddStudent({
+  onAdd,
+  branches,
+  schoolClasses
+}) {
 
   const [formData, setFormData] = useState({
-    school_id: 1,
-    full_name: "",
-    roll_number: "",
-    class_name: "",
-    section: "",
-    gender: "MALE",
-    dob: "",
-    father_name: "",
-    mother_name: "",
-    phone: "",
-    address: ""
-  });
+  school_id: 1,
+  school_class_id: "",
+ section_id: 1,
+  branch_id: "",
+  full_name: "",
+  roll_number: "",
+  gender: "MALE",
+  dob: "",
+  father_name: "",
+  mother_name: "",
+  phone: "",
+  address: ""
+});
 
   const handleChange = (e) => {
 
@@ -60,36 +65,59 @@ function AddStudent({ onAdd }) {
           onChange={handleChange}
           required
         />
-
         <input
-          type="text"
-          name="roll_number"
-          placeholder="Roll Number"
-          className="border p-3 rounded-lg"
-          value={formData.roll_number}
-          onChange={handleChange}
-          required
-        />
+  type="text"
+  name="roll_number"
+  placeholder="Roll Number"
+  className="border p-3 rounded-lg"
+  value={formData.roll_number}
+  onChange={handleChange}
+  required
+/>
 
-        <input
-          type="text"
-          name="class_name"
-          placeholder="Class"
-          className="border p-3 rounded-lg"
-          value={formData.class_name}
-          onChange={handleChange}
-          required
-        />
+        <select
+  name="branch_id"
+  value={formData.branch_id}
+  onChange={handleChange}
+  className="border p-3 rounded-lg"
+  required
+>
+  <option value="">
+    Select Branch
+  </option>
 
-        <input
-          type="text"
-          name="section"
-          placeholder="Section"
-          className="border p-3 rounded-lg"
-          value={formData.section}
-          onChange={handleChange}
-          required
-        />
+  {branches?.map((branch) => (
+    <option
+      key={branch.id}
+      value={branch.id}
+    >
+      {branch.branch_name}
+    </option>
+  ))}
+</select>
+
+<select
+  name="school_class_id"
+  value={formData.school_class_id}
+  onChange={handleChange}
+  className="border p-3 rounded-lg"
+  required
+>
+  <option value="">
+    Select Class
+  </option>
+
+  {schoolClasses?.map((item) => (
+    <option
+      key={item.id}
+      value={item.id}
+    >
+      {item.class_name}
+    </option>
+  ))}
+</select>
+
+       
 
         <select
           name="gender"

@@ -11,10 +11,26 @@ import {
   updateStudentStatus,
   updateStudent
 } from "../../services/studentService";
+
+import {
+  getSchoolBranches
+} from "../../Services/schoolBranchService";
+
+import {
+  getSchoolClasses
+} from "../../Services/schoolClassService";
+
+
 function Students() {
 
   const [students, setStudents] =
     useState([]);
+
+    const [branches, setBranches] =
+useState([]);
+
+const [schoolClasses, setSchoolClasses] =
+useState([]);
 
   const [loading, setLoading] =
     useState(true);
@@ -38,30 +54,46 @@ const [showEditModal,
 
   }, []);
 
-  const fetchStudents = async () => {
+ const fetchStudents = async () => {
 
-    try {
+  try {
 
-      setLoading(true);
+    setLoading(true);
 
-      const response =
-        await getStudents();
+    const response =
+      await getStudents();
 
-      setStudents(
-        response.data || []
-      );
+    setStudents(
+      response.data || []
+    );
 
-    } catch (error) {
+    // Branches Load
+    const branchRes =
+      await getSchoolBranches();
 
-      console.log(error);
+    setBranches(
+      branchRes.data || []
+    );
 
-    } finally {
+    // School Classes Load
+    const classRes =
+      await getSchoolClasses();
 
-      setLoading(false);
+    setSchoolClasses(
+      classRes.data || []
+    );
 
-    }
+  } catch (error) {
 
-  };
+    console.log(error);
+
+  } finally {
+
+    setLoading(false);
+
+  }
+
+};
 
   const handleAddStudent =
     async (studentData) => {
@@ -269,12 +301,11 @@ const handleUpdateStudent =
 
         <div className="mb-8">
 
-          <AddStudent
-            onAdd={
-              handleAddStudent
-            }
-          />
-
+         <AddStudent
+  onAdd={handleAddStudent}
+  branches={branches}
+  schoolClasses={schoolClasses}
+/>
           {adding && (
 
             <p className="mt-3 text-blue-600 font-medium">
@@ -318,12 +349,16 @@ const handleUpdateStudent =
                   </th>
 
                   <th className="p-4 text-left">
-                    Class
-                  </th>
+  Class
+</th>
 
-                  <th className="p-4 text-left">
-                    Section
-                  </th>
+<th className="p-4 text-left">
+  Branch
+</th>
+
+<th className="p-4 text-left">
+  Section
+</th>
 
                   <th className="p-4 text-left">
                     Phone
@@ -391,13 +426,17 @@ const handleUpdateStudent =
                           {student.roll_number}
                         </td>
 
-                        <td className="p-4">
-                          {student.class_name}
-                        </td>
+                      <td className="p-4">
+  {student.class_name}
+</td>
 
-                        <td className="p-4">
-                          {student.section}
-                        </td>
+<td className="p-4">
+  {student.branch_name}
+</td>
+
+<td className="p-4">
+  {student.section_name}
+</td>
 
                         <td className="p-4">
                           {student.phone}

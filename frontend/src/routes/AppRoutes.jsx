@@ -19,6 +19,15 @@ import Attendance from "../pages/Attendance/Attendance";
 import Fees from "../pages/Fees/Fees";
 import Profile from "../pages/Profile/Profile";
 import AIAssistant from "../pages/AI/AIAssistant";
+import FeeStructure from "../pages/FeeStructure/FeeStructure";
+import StudentFeeCollection from "../pages/StudentFeeCollection/StudentFeeCollection";
+import Exams from "../pages/Exams/Exams";
+import StudentMarks from "../pages/StudentMarks/StudentMarks";
+import Timetable from "../pages/Timetable/Timetable";
+import ReportCard from "../pages/ReportCard/ReportCard";
+import Classes from "../pages/Classes/Classes";
+import SchoolBranches from "../pages/SchoolBranches/SchoolBranches";
+import SchoolClasses from "../pages/SchoolClasses/SchoolClasses";
 
 import PrivateRoute from "./PrivateRoute";
 
@@ -134,6 +143,59 @@ function AppRoutes() {
             </PrivateRoute>
           }
         />
+        <Route
+  path="/fee-structure"
+  element={
+    <PrivateRoute>
+      <FeeStructure />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/student-fees"
+  element={
+    <PrivateRoute>
+      <StudentFeeCollection />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/exams"
+  element={
+    <PrivateRoute>
+      <Exams />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/student-marks"
+  element={
+    <PrivateRoute>
+      <StudentMarks />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/timetable"
+  element={
+    <PrivateRoute>
+      <Timetable />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/report-card"
+  element={
+    <PrivateRoute>
+      <ReportCard />
+    </PrivateRoute>
+  }
+/>
 
         <Route
           path="/ai"
@@ -143,11 +205,24 @@ function AppRoutes() {
             </PrivateRoute>
           }
         />
+        <Route
+  path="/classes"
+  element={<Classes />}
+/>
+
+<Route
+  path="/school-branches"
+  element={<SchoolBranches />}
+/>
+
+<Route
+  path="/school-classes"
+  element={<SchoolClasses />}
+/>
 
       </Routes>
 
     </BrowserRouter>
-
   );
 
 }
