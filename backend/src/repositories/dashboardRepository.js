@@ -15,49 +15,69 @@ const getDashboardStats = async () => {
   );
 
   const [staffTypes] = await pool.query(
-  `SELECT COUNT(*) AS totalStaffTypes
-   FROM staff_type`
-);
+    `SELECT COUNT(*) AS totalStaffTypes
+     FROM staff_type`
+  );
 
-const [departments] = await pool.query(
-  `SELECT COUNT(*) AS totalDepartments
-   FROM staff_department`
-);
+  const [departments] = await pool.query(
+    `SELECT COUNT(*) AS totalDepartments
+     FROM staff_department`
+  );
 
   const [present] = await pool.query(
-  `SELECT COUNT(*) AS presentToday
-   FROM attendance
-   WHERE status = 'PRESENT'`
-);
+    `SELECT COUNT(*) AS presentToday
+     FROM attendance
+     WHERE status = 'PRESENT'
+     AND attendance_date = CURDATE()`
+  );
 
-const [absent] = await pool.query(
-  `SELECT COUNT(*) AS absentToday
-   FROM attendance
-   WHERE status = 'ABSENT'`
-);
+  const [absent] = await pool.query(
+    `SELECT COUNT(*) AS absentToday
+     FROM attendance
+     WHERE status = 'ABSENT'
+     AND attendance_date = CURDATE()`
+  );
+
+  const [feeCollection] = await pool.query(
+    `SELECT COALESCE(
+        SUM(amount_paid), 0
+      ) AS totalCollection
+     FROM student_fee_payments`
+  );
+
+  const [feeStructures] = await pool.query(
+    `SELECT COUNT(*) AS totalFeeStructures
+     FROM fee_structures`
+  );
 
   return {
-  totalSchools:
-    schools[0].totalSchools,
+    totalSchools:
+      schools[0].totalSchools,
 
-  totalStaff:
-    staff[0].totalStaff,
+    totalStaff:
+      staff[0].totalStaff,
 
-  totalStudents:
-    students[0].totalStudents,
+    totalStudents:
+      students[0].totalStudents,
 
-  totalStaffTypes:
-    staffTypes[0].totalStaffTypes,
+    totalStaffTypes:
+      staffTypes[0].totalStaffTypes,
 
-  totalDepartments:
-    departments[0].totalDepartments,
+    totalDepartments:
+      departments[0].totalDepartments,
 
-  presentToday:
-    present[0].presentToday,
+    presentToday:
+      present[0].presentToday,
 
-  absentToday:
-    absent[0].absentToday
-};
+    absentToday:
+      absent[0].absentToday,
+
+    totalCollection:
+      feeCollection[0].totalCollection,
+
+    totalFeeStructures:
+      feeStructures[0].totalFeeStructures
+  };
 };
 
 module.exports = {
