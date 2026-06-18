@@ -14,11 +14,11 @@ import {
 
 import {
   getSchoolBranches
-} from "../../Services/schoolBranchService";
+} from "../../services/schoolBranchService";
 
 import {
   getSchoolClasses
-} from "../../Services/schoolClassService";
+} from "../../services/schoolClassService";
 
 
 function Students() {
