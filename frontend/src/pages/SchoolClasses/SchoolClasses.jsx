@@ -15,18 +15,18 @@ import {
   updateSchoolClass,
   deleteSchoolClass
 }
-from "../../Services/schoolClassService";
+from "../../services/schoolClassService";
 import {
   getSchools
-} from "../../Services/schoolService";
+} from "../../services/schoolService";
 
 import {
   getSchoolBranches
-} from "../../Services/schoolBranchService";
+} from "../../services/schoolBranchService";
 
 import {
   getClasses
-} from "../../Services/classService";
+} from "../../services/classService";
 
 function SchoolClasses() {
 
