@@ -14,7 +14,7 @@ import {
   createFeeStructure,
   updateFeeStructure,
   deleteFeeStructure
-} from "../../Services/feeStructureService";
+} from "../../services/feeStructureService";
 
 function FeeStructure() {
 

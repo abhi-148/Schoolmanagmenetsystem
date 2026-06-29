@@ -15,7 +15,7 @@ import {
   updateSchoolBranch,
   deleteSchoolBranch
 }
-from "../../Services/schoolBranchService";
+from "../../services/schoolBranchService";
 
 function SchoolBranches() {
 

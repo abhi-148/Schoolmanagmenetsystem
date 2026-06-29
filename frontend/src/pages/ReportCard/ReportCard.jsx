@@ -8,7 +8,7 @@ from "../../layouts/AdminLayout";
 import {
   getReportCard
 }
-from "../../schoolMediumApiervices/reportCardService";
+from "../../services/reportCardService";
 
 function ReportCard() {
 

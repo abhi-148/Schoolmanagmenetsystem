@@ -5,7 +5,7 @@ import {
 
 import {
   getTimeTables
-} from "../../services/timeTableService";
+} from "../../services/timetableService";
 
 import {
   getStaff

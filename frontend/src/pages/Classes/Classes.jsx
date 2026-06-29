@@ -12,7 +12,7 @@ import {
   createClass,
   updateClass,
   deleteClass
-} from "../../Services/classService";
+} from "../../services/classService";
 
 function Classes() {
 
