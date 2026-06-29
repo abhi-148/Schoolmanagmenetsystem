@@ -1,13 +1,13 @@
 import api from "./api";
 
 // ==============================
-// Get All School Classes
+// Get All Sections
 // ==============================
 
-export const getSchoolClasses = async () => {
+export const getSections = async () => {
 
   const response = await api.get(
-    "/school-classes"
+    "/sections"
   );
 
   return response.data;
@@ -15,15 +15,15 @@ export const getSchoolClasses = async () => {
 };
 
 // ==============================
-// Get School Class By Id
+// Get Section By Id
 // ==============================
 
-export const getSchoolClassById = async (
+export const getSectionById = async (
   id
 ) => {
 
   const response = await api.get(
-    `/school-classes/${id}`
+    `/sections/${id}`
   );
 
   return response.data;
@@ -31,15 +31,31 @@ export const getSchoolClassById = async (
 };
 
 // ==============================
-// Create School Class
+// Get Sections By School Class
 // ==============================
 
-export const createSchoolClass = async (
+export const getSectionsByClass = async (
+  schoolClassId
+) => {
+
+  const response = await api.get(
+    `/sections/class/${schoolClassId}`
+  );
+
+  return response.data;
+
+};
+
+// ==============================
+// Create Section
+// ==============================
+
+export const createSection = async (
   data
 ) => {
 
   const response = await api.post(
-    "/school-classes",
+    "/sections",
     data
   );
 
@@ -48,33 +64,15 @@ export const createSchoolClass = async (
 };
 
 // ==============================
-// Update School Class
+// Delete Section
 // ==============================
 
-export const updateSchoolClass = async (
-  id,
-  data
-) => {
-
-  const response = await api.put(
-    `/school-classes/${id}`,
-    data
-  );
-
-  return response.data;
-
-};
-
-// ==============================
-// Delete School Class
-// ==============================
-
-export const deleteSchoolClass = async (
+export const deleteSection = async (
   id
 ) => {
 
   const response = await api.delete(
-    `/school-classes/${id}`
+    `/sections/${id}`
   );
 
   return response.data;

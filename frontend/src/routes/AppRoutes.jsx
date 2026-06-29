@@ -28,7 +28,27 @@ import ReportCard from "../pages/ReportCard/ReportCard";
 import Classes from "../pages/Classes/Classes";
 import SchoolBranches from "../pages/SchoolBranches/SchoolBranches";
 import SchoolClasses from "../pages/SchoolClasses/SchoolClasses";
-
+import MasterMediumPage from "../pages/mediums/MasterMediumPage";
+import SchoolMediumPage from "../pages/mediums/SchoolMediumPage";
+import Batch from "../pages/Batch/Batch";
+import AddBatch from "../pages/Batch/AddBatch";
+import EditBatch from "../pages/Batch/EditBatch";
+import ViewBatch from "../pages/Batch/ViewBatch";
+import ExamTimetable from "../pages/ExamTimetable/ExamTimetable";
+import AddExamTimetable from "../pages/ExamTimetable/AddExamTimetable";
+import EditExamTimetable from "../pages/ExamTimetable/EditExamTimetable";
+import ViewExamTimetable from "../pages/ExamTimetable/ViewExamTimetable";
+import SchoolPeriod from "../pages/SchoolPeriod/SchoolPeriod";
+import AddSchoolPeriod from "../pages/SchoolPeriod/AddSchoolPeriod";
+import EditSchoolPeriod from "../pages/SchoolPeriod/EditSchoolPeriod";
+import ViewSchoolPeriod from "../pages/SchoolPeriod/ViewSchoolPeriod";
+import AddTimetable from "../pages/Timetable/AddTimetable";
+import EditTimetable from "../pages/Timetable/EditTimetable";
+import ViewTimetable from "../pages/Timetable/ViewTimetable";
+import TimeTableSubstitution from "../pages/TimeTableSubstitution/TimeTableSubstitution";
+import AddTimeTableSubstitution from "../pages/TimeTableSubstitution/AddTimeTableSubstitution";
+import EditTimeTableSubstitution from "../pages/TimeTableSubstitution/EditTimeTableSubstitution";
+import ViewTimeTableSubstitution from "../pages/TimeTableSubstitution/ViewTimeTableSubstitution";
 import PrivateRoute from "./PrivateRoute";
 
 function AppRoutes() {
@@ -187,6 +207,32 @@ function AppRoutes() {
     </PrivateRoute>
   }
 />
+<Route
+  path="/timetable/add"
+  element={
+    <PrivateRoute>
+      <AddTimetable />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/timetable/edit/:id"
+  element={
+    <PrivateRoute>
+      <EditTimetable />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/timetable/view/:id"
+  element={
+    <PrivateRoute>
+      <ViewTimetable />
+    </PrivateRoute>
+  }
+/>
 
 <Route
   path="/report-card"
@@ -205,19 +251,191 @@ function AppRoutes() {
             </PrivateRoute>
           }
         />
-        <Route
+      <Route
   path="/classes"
-  element={<Classes />}
+  element={
+    <PrivateRoute>
+      <Classes />
+    </PrivateRoute>
+  }
 />
 
 <Route
   path="/school-branches"
-  element={<SchoolBranches />}
+  element={
+    <PrivateRoute>
+      <SchoolBranches />
+    </PrivateRoute>
+  }
 />
 
 <Route
   path="/school-classes"
-  element={<SchoolClasses />}
+  element={
+    <PrivateRoute>
+      <SchoolClasses />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/master-mediums"
+  element={
+    <PrivateRoute>
+      <MasterMediumPage />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/school-mediums"
+  element={
+    <PrivateRoute>
+      <SchoolMediumPage />
+    </PrivateRoute>
+  }
+/><Route
+  path="/batches"
+  element={
+    <PrivateRoute>
+      <Batch />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/batches/add"
+  element={
+    <PrivateRoute>
+      <AddBatch />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/batches/edit/:id"
+  element={
+    <PrivateRoute>
+      <EditBatch />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/batches/view/:id"
+  element={
+    <PrivateRoute>
+      <ViewBatch />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/exam-timetable"
+  element={
+    <PrivateRoute>
+      <ExamTimetable />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/exam-timetable/add"
+  element={
+    <PrivateRoute>
+      <AddExamTimetable />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/exam-timetable/edit/:id"
+  element={
+    <PrivateRoute>
+      <EditExamTimetable />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/exam-timetable/view/:id"
+  element={
+    <PrivateRoute>
+      <ViewExamTimetable />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/school-periods"
+  element={
+    <PrivateRoute>
+      <SchoolPeriod />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/school-periods/add"
+  element={
+    <PrivateRoute>
+      <AddSchoolPeriod />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/school-periods/edit/:id"
+  element={
+    <PrivateRoute>
+      <EditSchoolPeriod />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/school-periods/view/:id"
+  element={
+    <PrivateRoute>
+      <ViewSchoolPeriod />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/timetable-substitutions"
+  element={
+    <PrivateRoute>
+      <TimeTableSubstitution />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/timetable-substitutions/add"
+  element={
+    <PrivateRoute>
+      <AddTimeTableSubstitution />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/timetable-substitutions/edit/:id"
+  element={
+    <PrivateRoute>
+      <EditTimeTableSubstitution />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/timetable-substitutions/view/:id"
+  element={
+    <PrivateRoute>
+      <ViewTimeTableSubstitution />
+    </PrivateRoute>
+  }
 />
 
       </Routes>

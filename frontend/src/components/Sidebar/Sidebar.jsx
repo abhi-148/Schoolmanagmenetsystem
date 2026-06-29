@@ -18,7 +18,8 @@ import {
   BookOpen,
   CalendarDays,
   FileText,
-  Clock3
+  Clock3,
+    Languages
 } from "lucide-react";
 
 import {
@@ -251,11 +252,56 @@ function Sidebar() {
 
 <li>
   <Link
+    to="/batches"
+    className={linkClass("/batches")}
+    onClick={() => setIsOpen(false)}
+  >
+    <BookOpen size={20} />
+    Batch Management
+  </Link>
+</li>
+
+<li>
+  <Link
+    to="/school-periods"
+    className={linkClass("/school-periods")}
+    onClick={() => setIsOpen(false)}
+  >
+    <Clock3 size={20} />
+    School Periods
+  </Link>
+</li>
+
+<li>
+  <Link
     to="/school-classes"
     className={linkClass("/school-classes")}
   >
     <BookOpen size={20} />
     School Classes
+  </Link>
+</li>
+<li>
+  <Link
+    to="/master-mediums"
+    className={linkClass(
+      "/master-mediums"
+    )}
+  >
+    <Languages size={20} />
+    Master Mediums
+  </Link>
+</li>
+
+<li>
+  <Link
+    to="/school-mediums"
+    className={linkClass(
+      "/school-mediums"
+    )}
+  >
+    <Languages size={20} />
+    School Mediums
   </Link>
 </li>
 
@@ -429,6 +475,21 @@ function Sidebar() {
 </li>
 
 <li>
+
+  <li>
+  <Link
+    to="/exam-timetable"
+    className={linkClass(
+      "/exam-timetable"
+    )}
+    onClick={() =>
+      setIsOpen(false)
+    }
+  >
+    <CalendarDays size={20} />
+    Exam Timetable
+  </Link>
+</li>
   <Link
     to="/report-card"
     className={linkClass(
@@ -455,6 +516,21 @@ function Sidebar() {
   >
     <Clock3 size={20} />
     Timetable
+  </Link>
+</li>
+
+<li>
+  <Link
+    to="/timetable-substitutions"
+    className={linkClass(
+      "/timetable-substitutions"
+    )}
+    onClick={() =>
+      setIsOpen(false)
+    }
+  >
+    <Clock3 size={20} />
+    Timetable Substitution
   </Link>
 </li>
 

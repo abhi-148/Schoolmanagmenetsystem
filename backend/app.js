@@ -20,6 +20,13 @@ const schoolBranchRoutes = require(
 const schoolClassRoutes = require(
   "./src/routes/schoolClassRoutes"
 );
+const masterMediumRoutes = require(
+  "./src/routes/masterMediumRoutes"
+);
+
+const schoolMediumRoutes = require(
+  "./src/routes/schoolMediumRoutes"
+);
 
 const sectionRoutes = require(
   "./src/routes/sectionRoutes"
@@ -80,6 +87,9 @@ const studentFeeRoutes = require(
 const examRoutes = require(
   "./src/routes/examRoutes"
 );
+const examTimetableRoutes = require(
+  "./src/routes/examTimetableRoutes"
+);
 
 const studentMarkRoutes = require(
   "./src/routes/studentMarkRoutes"
@@ -104,6 +114,31 @@ const reportCardRoutes = require(
 // Middleware
 const errorHandler = require(
   "./src/middlewares/errorHandler"
+);
+
+// Academic Year
+const academicYearRoutes = require(
+  "./src/routes/academicYearRoutes"
+);
+
+// Batch
+const batchRoutes = require(
+  "./src/routes/batchRoutes"
+);
+
+// School Period
+const schoolPeriodRoutes = require(
+  "./src/routes/schoolPeriodRoutes"
+);
+
+// Time Table V2
+const timeTableV2Routes = require(
+  "./src/routes/timeTableV2Routes"
+);
+
+// Time Table Substitution
+const timeTableSubstitutionRoutes = require(
+  "./src/routes/timeTableSubstitutionRoutes"
 );
 
 // Health Check
@@ -194,6 +229,10 @@ app.use(
   "/api/student-marks",
   studentMarkRoutes
 );
+app.use(
+  "/api/exam-timetable",
+  examTimetableRoutes
+);
 
 app.use(
   "/api/report-cards",
@@ -206,11 +245,52 @@ app.use(
   timetableRoutes
 );
 
+app.use(
+  "/api/master-mediums",
+  masterMediumRoutes
+);
+
+app.use(
+  "/api/school-mediums",
+  schoolMediumRoutes
+);
+
+// Academic Years
+app.use(
+  "/api/academic-years",
+  academicYearRoutes
+);
+
+// Batches
+app.use(
+  "/api/batches",
+  batchRoutes
+);
+
+// School Periods
+app.use(
+  "/api/school-periods",
+  schoolPeriodRoutes
+);
+
+// Timetable V2
+app.use(
+  "/api/timetable-v2",
+  timeTableV2Routes
+);
+
+// Timetable Substitutions
+app.use(
+  "/api/timetable-substitutions",
+  timeTableSubstitutionRoutes
+);
+
 // Dashboard
 app.use(
   "/api/dashboard",
   dashboardRoutes
 );
+
 
 // Profile
 app.use(
@@ -218,10 +298,12 @@ app.use(
   profileRoutes
 );
 
+
 // AI
 app.use("/api/ai", aiRoutes);
 
 // Error Handler (Always Last)
 app.use(errorHandler);
+
 
 module.exports = app;

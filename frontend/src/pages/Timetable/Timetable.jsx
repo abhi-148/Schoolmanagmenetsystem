@@ -1,292 +1,454 @@
 import {
   useEffect,
+  useMemo,
   useState
 } from "react";
 
-import AdminLayout
-from "../../layouts/AdminLayout";
+import { useNavigate } from "react-router-dom";
 
-import AddTimetable
-from "./AddTimetable";
+import AdminLayout from "../../layouts/AdminLayout";
+
+import TimetableHeader from "../../components/Timetable/TimetableHeader";
+import TimetableFilters from "../../components/Timetable/TimetableFilters";
+import TimetableTable from "../../components/Timetable/TimetableTable";
+import DeleteTimetableModal from "../../components/Timetable/DeleteTimetableModal";
 
 import {
-  getTimetables,
-  createTimetable,
-  updateTimetable,
-  deleteTimetable
-}
-from "../../Services/timetableService";
+
+  getTimeTables,
+
+  deleteTimeTable
+
+} from "../../services/timeTableService";
 
 function Timetable() {
 
+  const navigate = useNavigate();
+
+  // ==========================================
+  // States
+  // ==========================================
+
   const [
+
     timetables,
+
     setTimetables
+
   ] = useState([]);
 
   const [
-    editData,
-    setEditData
+
+    filteredTimetables,
+
+    setFilteredTimetables
+
+  ] = useState([]);
+
+  const [
+
+    loading,
+
+    setLoading
+
+  ] = useState(true);
+
+  const [
+
+    deleteLoading,
+
+    setDeleteLoading
+
+  ] = useState(false);
+
+  const [
+
+    search,
+
+    setSearch
+
+  ] = useState("");
+
+  const [
+
+    day,
+
+    setDay
+
+  ] = useState("");
+
+  const [
+
+    status,
+
+    setStatus
+
+  ] = useState("");
+
+  const [
+
+    deleteModal,
+
+    setDeleteModal
+
+  ] = useState(false);
+
+  const [
+
+    selectedId,
+
+    setSelectedId
+
   ] = useState(null);
 
   const [
-    isEditing,
-    setIsEditing
-  ] = useState(false);
+
+    error,
+
+    setError
+
+  ] = useState("");
+
+  // ==========================================
+  // Fetch Timetable
+  // ==========================================
+
+  const fetchTimetables = async () => {
+
+    try {
+
+      setLoading(true);
+
+      const response =
+        await getTimeTables();
+
+      const data =
+        response.data || [];
+
+      setTimetables(data);
+
+      setFilteredTimetables(data);
+
+      setError("");
+
+    }
+
+    catch (error) {
+
+      console.log(error);
+
+      setError(
+        "Unable to fetch timetable."
+      );
+
+    }
+
+    finally {
+
+      setLoading(false);
+
+    }
+
+  };
 
   useEffect(() => {
 
-    fetchData();
+    fetchTimetables();
 
   }, []);
 
-  const fetchData =
-  async () => {
+  // ==========================================
+  // Filters
+  // ==========================================
+
+  const filteredData =
+    useMemo(() => {
+
+      let data = [
+
+        ...timetables
+
+      ];
+
+      if (search.trim()) {
+
+        const keyword =
+          search.toLowerCase();
+
+        data = data.filter(
+
+          (item) =>
+
+            item.batch_code
+              ?.toLowerCase()
+              .includes(keyword)
+
+            ||
+
+            item.class_name
+              ?.toLowerCase()
+              .includes(keyword)
+
+            ||
+
+            item.section_name
+              ?.toLowerCase()
+              .includes(keyword)
+
+            ||
+
+            item.subject_name
+              ?.toLowerCase()
+              .includes(keyword)
+
+            ||
+
+            item.teacher_name
+              ?.toLowerCase()
+              .includes(keyword)
+
+        );
+
+      }
+
+      if (day !== "") {
+
+        data = data.filter(
+
+          (item) =>
+
+            item.day_of_week === day
+
+        );
+
+      }
+
+      if (status !== "") {
+
+        data = data.filter(
+
+          (item) =>
+
+            item.status === status
+
+        );
+
+      }
+
+      return data;
+
+    }, [
+
+      timetables,
+
+      search,
+
+      day,
+
+      status
+
+    ]);
+
+  useEffect(() => {
+
+    setFilteredTimetables(
+
+      filteredData
+
+    );
+
+  }, [
+
+    filteredData
+
+  ]);
+
+  // ==========================================
+  // Reset Filters
+  // ==========================================
+
+  const handleReset = () => {
+
+    setSearch("");
+
+    setDay("");
+
+    setStatus("");
+
+  };
+
+  // ==========================================
+  // View
+  // ==========================================
+
+  const handleView = (id) => {
+
+    navigate(
+
+      `/timetable/view/${id}`
+
+    );
+
+  };
+
+  // ==========================================
+  // Edit
+  // ==========================================
+
+  const handleEdit = (id) => {
+
+    navigate(
+
+      `/timetable/edit/${id}`
+
+    );
+
+  };
+
+  // ==========================================
+  // Delete
+  // ==========================================
+
+  const handleDeleteClick = (id) => {
+
+    setSelectedId(id);
+
+    setDeleteModal(true);
+
+  };
+
+  const closeDeleteModal = () => {
+
+    setDeleteModal(false);
+
+    setSelectedId(null);
+
+  };
+    // ==========================================
+  // Delete API
+  // ==========================================
+
+  const handleDelete = async () => {
+
+    if (!selectedId) return;
 
     try {
 
-      const response =
-        await getTimetables();
+      setDeleteLoading(true);
 
-      setTimetables(
-        response.data || []
-      );
+      await deleteTimeTable(selectedId);
+
+      closeDeleteModal();
+
+      await fetchTimetables();
 
     } catch (error) {
 
       console.log(error);
 
-    }
-
-  };
-
-  const handleAdd =
-  async (data) => {
-
-    try {
-
-      await createTimetable(
-        data
-      );
-
       alert(
-        "Timetable Added Successfully"
+        error.response?.data?.message ||
+        "Failed to delete timetable."
       );
 
-      fetchData();
+    } finally {
 
-    } catch (error) {
-
-      console.log(error);
+      setDeleteLoading(false);
 
     }
 
   };
 
-  const handleEdit =
-  (item) => {
-
-    setEditData(item);
-
-    setIsEditing(true);
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-
-  };
-
-  const handleUpdate =
-  async (id, data) => {
-
-    try {
-
-      await updateTimetable(
-        id,
-        data
-      );
-
-      alert(
-        "Timetable Updated Successfully"
-      );
-
-      setEditData(null);
-
-      setIsEditing(false);
-
-      fetchData();
-
-    } catch (error) {
-
-      console.log(error);
-
-      alert(
-        "Update Failed"
-      );
-
-    }
-
-  };
-
-  const handleDelete =
-  async (id) => {
-
-    if (
-      !window.confirm(
-        "Delete Timetable?"
-      )
-    ) return;
-
-    try {
-
-      await deleteTimetable(
-        id
-      );
-
-      alert(
-        "Timetable Deleted Successfully"
-      );
-
-      fetchData();
-
-    } catch (error) {
-
-      console.log(error);
-
-      alert(
-        "Delete Failed"
-      );
-
-    }
-
-  };
+  // ==========================================
+  // Return
+  // ==========================================
 
   return (
 
     <AdminLayout>
 
-      <div className="p-8 bg-slate-100 min-h-screen">
+      <div className="bg-slate-100 min-h-screen">
 
-        <h1 className="text-3xl font-bold mb-6">
-          Timetable
-        </h1>
+        {/* Header */}
 
-        <AddTimetable
-          onAdd={handleAdd}
-          onUpdate={handleUpdate}
-          editData={editData}
-          isEditing={isEditing}
+        <TimetableHeader />
+
+        {/* Filters */}
+
+        <TimetableFilters
+
+          search={search}
+
+          setSearch={setSearch}
+
+          day={day}
+
+          setDay={setDay}
+
+          status={status}
+
+          setStatus={setStatus}
+
+          onReset={handleReset}
+
         />
 
-        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+        {/* Error */}
 
-          <table className="w-full">
+        {
 
-            <thead className="bg-slate-50">
+          error && (
 
-              <tr>
+            <div
+              className="
+                bg-red-100
+                border
+                border-red-300
+                text-red-700
+                rounded-xl
+                px-5
+                py-4
+                mb-6
+              "
+            >
 
-                <th className="p-4">
-                  Class
-                </th>
+              {error}
 
-                <th className="p-4">
-                  Section
-                </th>
+            </div>
 
-                <th className="p-4">
-                  Subject
-                </th>
+          )
 
-                <th className="p-4">
-                  Teacher
-                </th>
+        }
 
-                <th className="p-4">
-                  Day
-                </th>
+        {/* Table */}
 
-                <th className="p-4">
-                  Time
-                </th>
+        <TimetableTable
 
-                <th className="p-4">
-                  Actions
-                </th>
+          timetables={filteredTimetables}
 
-              </tr>
+          loading={loading}
 
-            </thead>
+          onView={handleView}
 
-            <tbody>
+          onEdit={handleEdit}
 
-              {timetables.map(
-                (item) => (
+          onDelete={handleDeleteClick}
 
-                  <tr
-                    key={item.id}
-                    className="border-t"
-                  >
+        />
 
-                    <td className="p-4">
-                      {item.class_name}
-                    </td>
+        {/* Delete Modal */}
 
-                    <td className="p-4">
-                      {item.section_name}
-                    </td>
+        <DeleteTimetableModal
 
-                    <td className="p-4">
-                      {item.subject_name}
-                    </td>
+          isOpen={deleteModal}
 
-                    <td className="p-4">
-                      {item.teacher_name}
-                    </td>
+          onClose={closeDeleteModal}
 
-                    <td className="p-4">
-                      {item.day_name}
-                    </td>
+          onConfirm={handleDelete}
 
-                    <td className="p-4">
-                      {item.start_time}
-                      -
-                      {item.end_time}
-                    </td>
+          loading={deleteLoading}
 
-                    <td className="p-4 flex gap-2">
-
-                      <button
-                        onClick={() =>
-                          handleEdit(item)
-                        }
-                        className="bg-blue-500 text-white px-3 py-1 rounded"
-                      >
-                        Edit
-                      </button>
-
-                      <button
-                        onClick={() =>
-                          handleDelete(item.id)
-                        }
-                        className="bg-red-500 text-white px-3 py-1 rounded"
-                      >
-                        Delete
-                      </button>
-
-                    </td>
-
-                  </tr>
-
-                )
-              )}
-
-            </tbody>
-
-          </table>
-
-        </div>
+        />
 
       </div>
 

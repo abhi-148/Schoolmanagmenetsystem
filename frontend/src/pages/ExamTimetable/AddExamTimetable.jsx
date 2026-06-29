@@ -2,14 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import AdminLayout from "../../layouts/AdminLayout";
-
-import TimetableForm from "../../components/Timetable/TimetableForm";
+import ExamTimetableForm from "../../components/ExamTimetable/ExamTimetableForm";
 
 import {
-  createTimeTable
-} from "../../services/timeTableService";
+  createExamTimetable,
+} from "../../services/examTimetableService";
 
-function AddTimetable() {
+function AddExamTimetable() {
 
   const navigate = useNavigate();
 
@@ -17,28 +16,33 @@ function AddTimetable() {
     useState(false);
 
   const handleSubmit = async (
-    data
+    formData
   ) => {
 
     try {
 
       setLoading(true);
 
-      await createTimeTable(data);
-
-      alert(
-        "Timetable Created Successfully"
+      await createExamTimetable(
+        formData
       );
 
-      navigate("/timetable");
+      alert(
+        "Exam Timetable Created Successfully."
+      );
+
+      navigate("/exam-timetable");
 
     } catch (error) {
 
       console.error(error);
 
       alert(
-        error.response?.data?.message ||
-        "Failed to create timetable."
+
+        error?.response?.data?.message ||
+
+        "Unable to create Exam Timetable."
+
       );
 
     } finally {
@@ -49,33 +53,47 @@ function AddTimetable() {
 
   };
 
+  const handleCancel = () => {
+
+    navigate("/exam-timetable");
+
+  };
+
   return (
 
     <AdminLayout>
 
       <div className="bg-slate-100 min-h-screen p-6">
 
+        {/* Header */}
+
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
 
           <h1 className="text-3xl font-bold text-slate-800">
 
-            Add Timetable
+            Add Exam Timetable
 
           </h1>
 
           <p className="text-slate-500 mt-2">
 
-            Create a new timetable entry.
+            Create a new Exam Timetable.
 
           </p>
 
         </div>
 
-        <TimetableForm
+        {/* Form */}
+
+        <ExamTimetableForm
+
+          mode="create"
+
+          loading={loading}
 
           onSubmit={handleSubmit}
 
-          loading={loading}
+          onCancel={handleCancel}
 
         />
 
@@ -87,4 +105,4 @@ function AddTimetable() {
 
 }
 
-export default AddTimetable;
+export default AddExamTimetable;

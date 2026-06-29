@@ -1,13 +1,13 @@
 import api from "./api";
 
 // ==============================
-// Get All School Classes
+// Get All Academic Years
 // ==============================
 
-export const getSchoolClasses = async () => {
+export const getAcademicYears = async () => {
 
   const response = await api.get(
-    "/school-classes"
+    "/academic-years"
   );
 
   return response.data;
@@ -15,15 +15,15 @@ export const getSchoolClasses = async () => {
 };
 
 // ==============================
-// Get School Class By Id
+// Get Academic Year By Id
 // ==============================
 
-export const getSchoolClassById = async (
+export const getAcademicYearById = async (
   id
 ) => {
 
   const response = await api.get(
-    `/school-classes/${id}`
+    `/academic-years/${id}`
   );
 
   return response.data;
@@ -31,15 +31,15 @@ export const getSchoolClassById = async (
 };
 
 // ==============================
-// Create School Class
+// Create Academic Year
 // ==============================
 
-export const createSchoolClass = async (
+export const createAcademicYear = async (
   data
 ) => {
 
   const response = await api.post(
-    "/school-classes",
+    "/academic-years",
     data
   );
 
@@ -48,16 +48,16 @@ export const createSchoolClass = async (
 };
 
 // ==============================
-// Update School Class
+// Update Academic Year
 // ==============================
 
-export const updateSchoolClass = async (
+export const updateAcademicYear = async (
   id,
   data
 ) => {
 
   const response = await api.put(
-    `/school-classes/${id}`,
+    `/academic-years/${id}`,
     data
   );
 
@@ -66,15 +66,15 @@ export const updateSchoolClass = async (
 };
 
 // ==============================
-// Delete School Class
+// Delete Academic Year
 // ==============================
 
-export const deleteSchoolClass = async (
+export const deleteAcademicYear = async (
   id
 ) => {
 
   const response = await api.delete(
-    `/school-classes/${id}`
+    `/academic-years/${id}`
   );
 
   return response.data;

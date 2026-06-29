@@ -2,43 +2,36 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import AdminLayout from "../../layouts/AdminLayout";
+import BatchForm from "../../components/Batch/BatchForm";
 
-import TimetableForm from "../../components/Timetable/TimetableForm";
+import { createBatch } from "../../services/batchService";
 
-import {
-  createTimeTable
-} from "../../services/timeTableService";
-
-function AddTimetable() {
+function AddBatch() {
 
   const navigate = useNavigate();
 
   const [loading, setLoading] =
     useState(false);
 
-  const handleSubmit = async (
-    data
-  ) => {
+  const handleSubmit = async (formData) => {
 
     try {
 
       setLoading(true);
 
-      await createTimeTable(data);
+      await createBatch(formData);
 
-      alert(
-        "Timetable Created Successfully"
-      );
+      alert("Batch Created Successfully");
 
-      navigate("/timetable");
+      navigate("/batches");
 
     } catch (error) {
 
       console.error(error);
 
       alert(
-        error.response?.data?.message ||
-        "Failed to create timetable."
+        error?.response?.data?.message ||
+        "Unable to create batch."
       );
 
     } finally {
@@ -49,33 +42,43 @@ function AddTimetable() {
 
   };
 
+  const handleCancel = () => {
+
+    navigate("/batches");
+
+  };
+
   return (
 
     <AdminLayout>
 
       <div className="bg-slate-100 min-h-screen p-6">
 
+        {/* Page Header */}
+
         <div className="bg-white rounded-xl shadow-md p-6 mb-6">
 
           <h1 className="text-3xl font-bold text-slate-800">
-
-            Add Timetable
-
+            Add New Batch
           </h1>
 
           <p className="text-slate-500 mt-2">
-
-            Create a new timetable entry.
-
+            Create a new batch for your school.
           </p>
 
         </div>
 
-        <TimetableForm
+        {/* Form */}
+
+        <BatchForm
+
+          mode="create"
+
+          loading={loading}
 
           onSubmit={handleSubmit}
 
-          loading={loading}
+          onCancel={handleCancel}
 
         />
 
@@ -87,4 +90,4 @@ function AddTimetable() {
 
 }
 
-export default AddTimetable;
+export default AddBatch;
