@@ -7,8 +7,7 @@ import TimetableForm from "../../components/Timetable/TimetableForm";
 
 import {
   createTimeTable
-} from "../../services/timeTableService";
-
+} from "../../services/timetableService";
 function AddTimetable() {
 
   const navigate = useNavigate();

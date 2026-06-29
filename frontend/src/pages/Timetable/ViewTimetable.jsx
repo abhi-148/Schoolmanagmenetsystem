@@ -12,7 +12,7 @@ import AdminLayout from "../../layouts/AdminLayout";
 
 import {
   getTimeTableById
-} from "../../services/timeTableService";
+} from "../../services/timetableService";
 
 function ViewTimetable() {
 

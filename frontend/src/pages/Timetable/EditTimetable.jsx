@@ -15,8 +15,7 @@ import TimetableForm from "../../components/Timetable/TimetableForm";
 import {
   getTimeTableById,
   updateTimeTable
-} from "../../services/timeTableService";
-
+} from "../../services/timetableService";
 function EditTimetable() {
 
   const { id } = useParams();

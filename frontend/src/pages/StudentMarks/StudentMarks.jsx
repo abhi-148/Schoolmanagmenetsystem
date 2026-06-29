@@ -11,7 +11,7 @@ import {
   createStudentMark,
   updateStudentMark,
   deleteStudentMark
-} from "../../Services/studentMarkService";
+} from "../../services/studentMarkService";
 
 function StudentMarks() {
 

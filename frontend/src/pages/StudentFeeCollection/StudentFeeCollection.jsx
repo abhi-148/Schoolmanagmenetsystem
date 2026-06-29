@@ -8,7 +8,7 @@ import {
   createStudentFee,
   updateStudentFee,
   deleteStudentFee,
-} from "../../Services/studentFeeService";
+} from "../../services/studentFeeService";
 
 function StudentFeeCollection() {
   const [fees, setFees] = useState([]);

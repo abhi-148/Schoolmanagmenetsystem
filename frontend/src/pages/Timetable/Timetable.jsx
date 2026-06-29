@@ -11,7 +11,7 @@ import AdminLayout from "../../layouts/AdminLayout";
 import TimetableHeader from "../../components/Timetable/TimetableHeader";
 import TimetableFilters from "../../components/Timetable/TimetableFilters";
 import TimetableTable from "../../components/Timetable/TimetableTable";
-import DeleteTimetableModal from "../../components/Timetable/DeleteTimetableModal";
+import DeleteTimeTableModal from "../../components/Timetable/DeleteTimeTableModal";
 
 import {
 
@@ -19,7 +19,7 @@ import {
 
   deleteTimeTable
 
-} from "../../services/timeTableService";
+} from "../../services/timetableService";
 
 function Timetable() {
 
@@ -438,7 +438,7 @@ function Timetable() {
 
         {/* Delete Modal */}
 
-        <DeleteTimetableModal
+     <DeleteTimeTableModal
 
           isOpen={deleteModal}
 

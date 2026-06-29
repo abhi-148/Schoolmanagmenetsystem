@@ -8,7 +8,7 @@ import {
   createExam,
   updateExam,
   deleteExam
-} from "../../Services/examService";
+} from "../../services/examService";
 
 function Exams() {
 
