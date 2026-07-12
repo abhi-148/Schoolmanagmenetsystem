@@ -141,6 +141,42 @@ const updateSchoolClass = async (
   return result;
 
 };
+const updateSchoolClassBySchool = async (
+  id,
+  data,
+  schoolId
+) => {
+
+  const [result] = await pool.query(
+    `
+    UPDATE school_classes
+    SET
+      class_id = ?,
+      branch_id = ?,
+      location = ?,
+      student_capacity = ?,
+      status = ?,
+      updated_by = ?,
+      updated_at = NOW()
+    WHERE
+      id = ?
+      AND school_id = ?
+    `,
+    [
+      data.class_id,
+      data.branch_id,
+      data.location,
+      data.student_capacity,
+      data.status,
+      data.updated_by,
+      id,
+      schoolId
+    ]
+  );
+
+  return result;
+
+};
 
 // Delete School Class
 const deleteSchoolClass = async (id) => {
@@ -156,12 +192,80 @@ const deleteSchoolClass = async (id) => {
   return result;
 
 };
+const deleteSchoolClassBySchool = async (
+  id,
+  schoolId
+) => {
 
+  const [result] = await pool.query(
+    `
+    DELETE FROM school_classes
+    WHERE
+      id = ?
+      AND school_id = ?
+    `,
+    [
+      id,
+      schoolId
+    ]
+  );
+
+  return result;
+
+};
+// Get School Classes By School
+const getSchoolClassesBySchool = async (
+  schoolId
+) => {
+
+  const [rows] = await pool.query(
+    `
+    SELECT
+      sc.id,
+
+      s.school_name,
+
+      sb.branch_name,
+
+      c.class_name,
+
+      sc.location,
+      sc.student_capacity,
+      sc.status,
+
+      sc.school_id,
+      sc.branch_id,
+      sc.class_id
+
+    FROM school_classes sc
+
+    JOIN school s
+      ON s.id = sc.school_id
+
+    JOIN school_branches sb
+      ON sb.id = sc.branch_id
+
+    JOIN classes c
+      ON c.id = sc.class_id
+
+    WHERE sc.school_id = ?
+
+    ORDER BY sc.id DESC
+    `,
+    [schoolId]
+  );
+
+  return rows;
+
+};
 module.exports = {
   createSchoolClass,
   getAllSchoolClasses,
+  getSchoolClassesBySchool,
   getSchoolClassById,
   getSchoolClassesByBranch,
   updateSchoolClass,
+  updateSchoolClassBySchool,
+deleteSchoolClassBySchool,
   deleteSchoolClass
 };

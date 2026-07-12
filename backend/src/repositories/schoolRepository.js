@@ -110,6 +110,88 @@ const deleteSchool = async (
 
   return result;
 };
+const findSchoolAdminById = async (
+  id
+) => {
+
+  const [rows] = await pool.query(
+    `SELECT *
+     FROM school
+     WHERE id = ?`,
+    [id]
+  );
+
+  return rows[0];
+
+};
+
+const updateSchoolAdminPassword = async (
+  id,
+  password
+) => {
+
+  const [result] = await pool.query(
+    `UPDATE school
+     SET admin_password = ?
+     WHERE id = ?`,
+    [
+      password,
+      id
+    ]
+  );
+
+  return result;
+
+};
+const getSchoolAdminProfile = async (
+  id
+) => {
+
+  const [rows] = await pool.query(
+    `SELECT
+      id,
+      school_name,
+      school_code,
+      admin_name,
+      admin_email,
+      phone,
+      address,
+      status
+     FROM school
+     WHERE id = ?`,
+    [id]
+  );
+
+  return rows[0];
+
+};
+
+const updateSchoolAdminProfile = async (
+  id,
+  data
+) => {
+
+  const [result] = await pool.query(
+    `UPDATE school
+     SET
+       admin_name = ?,
+       admin_email = ?,
+       phone = ?,
+       address = ?,
+       updated_at = NOW()
+     WHERE id = ?`,
+    [
+      data.admin_name,
+      data.admin_email,
+      data.phone,
+      data.address,
+      id
+    ]
+  );
+
+  return result;
+
+};
 
 module.exports = {
   createSchool,
@@ -117,5 +199,9 @@ module.exports = {
   getSchoolById,
   updateSchool,
   findSchoolAdminByEmail,
-  deleteSchool
+  deleteSchool,
+  updateSchoolAdminPassword,
+  getSchoolAdminProfile,
+updateSchoolAdminProfile,
+findSchoolAdminById,
 };

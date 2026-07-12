@@ -6,6 +6,9 @@ const {
   createStaff,
   getAllStaff,
   loginStaff,
+  getStaffProfile,
+  changeStaffPassword,
+  updateOwnProfile,
   updateStaff,
   deleteStaff
 } = require("../controllers/staffController");
@@ -16,7 +19,40 @@ const authMiddleware =
 const authorizeRoles =
   require("../middlewares/roleMiddleware");
 
-// Only School Admin & Super Admin Can Create Staff
+/* ===========================
+   PUBLIC ROUTES
+=========================== */
+
+// Staff Login
+router.post(
+  "/login",
+  loginStaff
+);
+
+/* ===========================
+   STAFF SELF ROUTES
+=========================== */
+
+// Staff Profile
+router.put(
+  "/profile",
+  authMiddleware,
+  updateOwnProfile
+);
+
+// Change Password
+router.put(
+  "/change-password",
+  authMiddleware,
+  changeStaffPassword
+);
+
+
+/* ===========================
+   ADMIN ROUTES
+=========================== */
+
+// Create Staff
 router.post(
   "/",
   authMiddleware,
@@ -46,12 +82,6 @@ router.delete(
   "/:id",
   authMiddleware,
   deleteStaff
-);
-
-// Staff Login
-router.post(
-  "/login",
-  loginStaff
 );
 
 module.exports = router;

@@ -41,15 +41,42 @@ const createSchoolBranch = async (
 
 // Get All Branches
 const getAllSchoolBranches =
-async () => {
+async (user) => {
 
-  const [rows] = await pool.query(
-    `SELECT *
-     FROM school_branches
-     ORDER BY id DESC`
-  );
+  let query = `
+    SELECT *
+    FROM school_branches
+  `;
+
+  let params = [];
+
+  if (
+    user.role ===
+    "SCHOOL_ADMIN"
+  ) {
+
+    query += `
+      WHERE school_id = ?
+    `;
+
+    params.push(
+      user.schoolId
+    );
+
+  }
+
+  query += `
+    ORDER BY id DESC
+  `;
+
+  const [rows] =
+    await pool.query(
+      query,
+      params
+    );
 
   return rows;
+
 };
 
 // Get Branch By Id
@@ -111,6 +138,43 @@ async (
 
   return result;
 };
+const updateSchoolBranchBySchool =
+async (
+  id,
+  data,
+  schoolId
+) => {
+
+  const [result] = await pool.query(
+    `
+    UPDATE school_branches
+    SET
+      branch_name = ?,
+      address = ?,
+      contact_person = ?,
+      contact_number = ?,
+      principal_name = ?,
+      updated_by = ?,
+      updated_at = NOW()
+    WHERE
+      id = ?
+      AND school_id = ?
+    `,
+    [
+      data.branch_name,
+      data.address,
+      data.contact_person,
+      data.contact_number,
+      data.principal_name,
+      data.updated_by,
+      id,
+      schoolId
+    ]
+  );
+
+  return result;
+
+};
 
 // Delete Branch
 const deleteSchoolBranch =
@@ -124,12 +188,35 @@ async (id) => {
 
   return result;
 };
+const deleteSchoolBranchBySchool =
+async (
+  id,
+  schoolId
+) => {
 
+  const [result] = await pool.query(
+    `
+    DELETE FROM school_branches
+    WHERE
+      id = ?
+      AND school_id = ?
+    `,
+    [
+      id,
+      schoolId
+    ]
+  );
+
+  return result;
+
+};
 module.exports = {
   createSchoolBranch,
   getAllSchoolBranches,
   getSchoolBranchById,
   getBranchesBySchool,
   updateSchoolBranch,
+  updateSchoolBranchBySchool,
+deleteSchoolBranchBySchool,
   deleteSchoolBranch
 };

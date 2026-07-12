@@ -8,6 +8,10 @@ const {
   getSchoolById,
   updateSchool,
   loginSchoolAdmin,
+  resetSchoolAdminPassword,
+  changeSchoolAdminPassword,
+  getSchoolAdminProfile,
+  updateSchoolAdminProfile,
   deleteSchool
 } = require("../controllers/schoolController");
 
@@ -17,7 +21,51 @@ const authMiddleware =
 const authorizeRoles =
   require("../middlewares/roleMiddleware");
 
-// Only Super Admin Can Create School
+/* ===========================
+   SCHOOL ADMIN LOGIN
+=========================== */
+
+router.post(
+  "/admin/login",
+  loginSchoolAdmin
+);
+
+/* ===========================
+   SCHOOL ADMIN PROFILE
+=========================== */
+
+router.get(
+  "/profile",
+  authMiddleware,
+  authorizeRoles("SCHOOL_ADMIN"),
+  getSchoolAdminProfile
+);
+
+router.put(
+  "/profile",
+  authMiddleware,
+  authorizeRoles("SCHOOL_ADMIN"),
+  updateSchoolAdminProfile
+);
+router.put(
+  "/change-password",
+  authMiddleware,
+  authorizeRoles("SCHOOL_ADMIN"),
+  changeSchoolAdminPassword
+);
+
+router.put(
+  "/admin/reset-password",
+  authMiddleware,
+  authorizeRoles("SUPER_ADMIN"),
+  resetSchoolAdminPassword
+);
+
+/* ===========================
+   SUPER ADMIN ROUTES
+=========================== */
+
+// Create School
 router.post(
   "/",
   authMiddleware,
@@ -45,12 +93,6 @@ router.put(
   authMiddleware,
   authorizeRoles("SUPER_ADMIN"),
   updateSchool
-);
-
-// School Admin Login
-router.post(
-  "/admin/login",
-  loginSchoolAdmin
 );
 
 // Delete School

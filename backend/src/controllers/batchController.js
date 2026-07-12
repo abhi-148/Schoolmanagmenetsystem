@@ -41,7 +41,9 @@ async (req, res) => {
   try {
 
     const data =
-      await getAllBatchesService();
+      await getAllBatchesService(
+        req.user
+      );
 
     return res.status(200).json({
       success: true,

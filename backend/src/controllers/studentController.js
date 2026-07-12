@@ -5,7 +5,9 @@ const {
   updateStudentService,
   updateStudentStatusService,
   getStudentsWithPaginationService,
-  searchStudentsService
+  searchStudentsService,
+  loginStudentService,
+  changeStudentPasswordService
 } = require("../services/studentService");
 
 const createStudent = async (req, res) => {
@@ -34,8 +36,10 @@ const createStudent = async (req, res) => {
 const getAllStudents = async (req, res) => {
   try {
 
-    const students =
-      await getAllStudentsService();
+  const students =
+  await getAllStudentsService(
+    req.user
+  );
 
     return res.status(200).json({
       success: true,
@@ -199,12 +203,135 @@ const searchStudents = async (
 
 };
 
+// Student Login
+const loginStudent = async (req, res) => {
+
+  try {
+
+    const {
+      roll_number,
+      password
+    } = req.body;
+
+    const token =
+      await loginStudentService(
+        roll_number,
+        password
+      );
+
+    return res.status(200).json({
+      success: true,
+      token,
+      role: "STUDENT"
+    });
+
+  } catch (error) {
+
+    return res.status(400).json({
+      success: false,
+      message: error.message
+    });
+
+  }
+
+};
+
+// Student Profile
+const getStudentProfile = async (req, res) => {
+
+  try {
+
+    const student =
+      await getStudentByIdService(
+        req.user.id
+      );
+
+    return res.status(200).json({
+      success: true,
+      data: student
+    });
+
+  } catch (error) {
+
+    return res.status(400).json({
+      success: false,
+      message: error.message
+    });
+
+  }
+
+};
+
+// Update Student Profile
+const updateStudentProfile = async (req, res) => {
+
+  try {
+
+    await updateStudentService(
+      req.user.id,
+      req.body
+    );
+
+    return res.status(200).json({
+      success: true,
+      message:
+        "Profile Updated Successfully"
+    });
+
+  } catch (error) {
+
+    return res.status(400).json({
+      success: false,
+      message: error.message
+    });
+
+  }
+
+};
+
+// Change Password
+const changeStudentPassword = async (req, res) => {
+
+  try {
+
+    const {
+      oldPassword,
+      newPassword
+    } = req.body;
+
+    const result =
+      await changeStudentPasswordService(
+        req.user.id,
+        oldPassword,
+        newPassword
+      );
+
+    return res.status(200).json({
+      success: true,
+      data: result
+    });
+
+  } catch (error) {
+
+    return res.status(400).json({
+      success: false,
+      message: error.message
+    });
+
+  }
+
+};
+
 module.exports = {
   createStudent,
   getAllStudents,
   getStudentById,
   updateStudent,
+  updateStudentProfile,
   updateStudentStatus,
   getStudentsWithPagination,
-  searchStudents
+  searchStudents,
+  loginStudent,
+  getStudentProfile,
+  changeStudentPassword
 };

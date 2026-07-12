@@ -221,11 +221,66 @@ const deleteBatch = async (id) => {
 
   return result;
 };
+// Get Batches By School
+const getBatchesBySchool = async (schoolId) => {
+
+  const [rows] = await pool.query(
+    `
+    SELECT
+      b.batch_id,
+      b.batch_code,
+
+      c.class_name,
+      sec.section_name,
+
+      ay.academic_year_name,
+
+      st.full_name AS teacher_name,
+
+      sm.custom_medium_name,
+
+      b.start_time,
+      b.end_time,
+      b.duration_minutes,
+
+      b.status
+
+    FROM tbl_batches b
+
+    JOIN school_classes sc
+      ON sc.id = b.school_class_id
+
+    JOIN classes c
+      ON c.id = sc.class_id
+
+    JOIN sections sec
+      ON sec.id = b.section_id
+
+    JOIN academic_years ay
+      ON ay.id = b.academic_year_id
+
+    JOIN staff st
+      ON st.id = b.teacher_id
+
+    JOIN tbl_school_mediums sm
+      ON sm.id = b.school_medium_id
+
+    WHERE sc.school_id = ?
+
+    ORDER BY b.batch_id DESC
+    `,
+    [schoolId]
+  );
+
+  return rows;
+
+};
 
 module.exports = {
   createBatch,
   findBatchDuplicate,
   getAllBatches,
+  getBatchesBySchool,
   getBatchById,
   updateBatch,
   deleteBatch

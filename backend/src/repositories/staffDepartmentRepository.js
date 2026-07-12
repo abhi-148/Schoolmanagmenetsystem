@@ -5,34 +5,64 @@ const createDepartment = async (data) => {
   const [result] = await pool.query(
     `INSERT INTO staff_department
     (
+      school_id,
       name,
       description,
       logo,
       status,
       created_by
     )
-    VALUES (?, ?, ?, ?, ?)`,
+    VALUES (?, ?, ?, ?, ?, ?)`,
     [
-      data.name,
-      data.description,
-      data.logo,
-      data.status,
-      data.created_by
-    ]
+  data.school_id,
+  data.name,
+  data.description,
+  data.logo,
+  data.status,
+  data.created_by
+]
   );
 
   return result;
 };
 
-const getAllDepartments = async () => {
+const getAllDepartments = async (
+  user
+) => {
 
-  const [rows] = await pool.query(
-    `SELECT *
-     FROM staff_department
-     ORDER BY id DESC`
-  );
+  let query = `
+    SELECT *
+    FROM staff_department
+  `;
+
+  let params = [];
+
+  if (
+    user.role === "SCHOOL_ADMIN"
+  ) {
+
+    query += `
+      WHERE school_id = ?
+    `;
+
+    params.push(
+      user.schoolId
+    );
+
+  }
+
+  query += `
+    ORDER BY id DESC
+  `;
+
+  const [rows] =
+    await pool.query(
+      query,
+      params
+    );
 
   return rows;
+
 };
 
 const updateDepartment = async (

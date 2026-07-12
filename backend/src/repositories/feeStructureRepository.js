@@ -28,7 +28,9 @@ const createFeeStructure = async (
 };
 
 // Get All
-const getAllFeeStructures = async () => {
+const getAllFeeStructures = async (
+  user
+) => {
 
   const [rows] = await pool.query(`
     SELECT

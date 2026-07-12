@@ -57,8 +57,9 @@ router.delete(
   "/:id",
   authMiddleware,
   authorizeRoles(
-    "SUPER_ADMIN"
-  ),
+  "SUPER_ADMIN",
+  "SCHOOL_ADMIN"
+),
   deleteSection
 );
 

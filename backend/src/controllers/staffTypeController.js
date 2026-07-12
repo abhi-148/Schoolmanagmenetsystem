@@ -13,9 +13,20 @@ async (req,res) => {
 try {
 
 const result =
-await createStaffTypeService(
-req.body
-);
+await createStaffTypeService({
+
+  ...req.body,
+
+  created_by:
+    req.user.id,
+
+  created_by_role:
+    req.user.role,
+
+  schoolId:
+    req.user.schoolId
+
+});
 
 return res.status(201).json({
 success:true,
@@ -40,13 +51,14 @@ async(req,res)=>{
 try{
 
 const result =
-await getAllStaffTypesService();
+await getAllStaffTypesService(
+  req.user
+);
 
 return res.status(200).json({
 success:true,
 data:result
 });
-
 }
 catch(error){
 
@@ -64,8 +76,12 @@ async (req,res)=>{
 try{
 
 await updateStaffTypeService(
-req.params.id,
-req.body
+  req.params.id,
+  {
+    ...req.body,
+    updated_by: req.user.id
+  },
+  req.user
 );
 
 return res.status(200).json({
@@ -92,7 +108,8 @@ async(req,res)=>{
 try{
 
 await deleteStaffTypeService(
-req.params.id
+  req.params.id,
+  req.user
 );
 
 return res.status(200).json({

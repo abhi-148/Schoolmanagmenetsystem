@@ -2,6 +2,7 @@ const pool = require("../config/db");
 
 const getDashboardStats = async () => {
 
+
   const [schools] = await pool.query(
     "SELECT COUNT(*) AS totalSchools FROM school"
   );
@@ -79,7 +80,67 @@ const getDashboardStats = async () => {
       feeStructures[0].totalFeeStructures
   };
 };
+const getSchoolDashboardStats = async (
+  schoolId
+) => {
+
+  const [staff] = await pool.query(
+    `SELECT COUNT(*) AS totalStaff
+     FROM staff
+     WHERE school_id = ?`,
+    [schoolId]
+  );
+
+  const [students] = await pool.query(
+    `SELECT COUNT(*) AS totalStudents
+     FROM student
+     WHERE school_id = ?`,
+    [schoolId]
+  );
+
+  const [present] = await pool.query(
+    `SELECT COUNT(*) AS presentToday
+     FROM attendance a
+     INNER JOIN student s
+       ON a.student_id = s.id
+     WHERE
+       s.school_id = ?
+       AND a.status = 'PRESENT'
+       AND a.attendance_date = CURDATE()`,
+    [schoolId]
+  );
+
+  const [absent] = await pool.query(
+    `SELECT COUNT(*) AS absentToday
+     FROM attendance a
+     INNER JOIN student s
+       ON a.student_id = s.id
+     WHERE
+       s.school_id = ?
+       AND a.status = 'ABSENT'
+       AND a.attendance_date = CURDATE()`,
+    [schoolId]
+  );
+
+  return {
+
+    totalStaff:
+      staff[0].totalStaff,
+
+    totalStudents:
+      students[0].totalStudents,
+
+    presentToday:
+      present[0].presentToday,
+
+    absentToday:
+      absent[0].absentToday
+
+  };
+
+};
 
 module.exports = {
-  getDashboardStats
+  getDashboardStats,
+  getSchoolDashboardStats
 };

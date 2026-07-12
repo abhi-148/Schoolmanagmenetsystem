@@ -12,6 +12,16 @@ async (data) => {
 
   data.status = "ACTIVE";
 
+  if (
+    data.created_by_role ===
+    "SCHOOL_ADMIN"
+  ) {
+
+    data.school_id =
+      data.schoolId;
+
+  }
+
   return await createDepartment(
     data
   );
@@ -19,9 +29,13 @@ async (data) => {
 };
 
 const getAllDepartmentsService =
-async () => {
+async (
+  user
+) => {
 
-  return await getAllDepartments();
+  return await getAllDepartments(
+    user
+  );
 
 };
 

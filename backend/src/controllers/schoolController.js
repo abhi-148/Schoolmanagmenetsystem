@@ -4,9 +4,12 @@ const {
   getSchoolByIdService,
   updateSchoolService,
   loginSchoolAdminService,
-  deleteSchoolService
+  deleteSchoolService,
+  resetSchoolAdminPasswordService,
+  changeSchoolAdminPasswordService,
+  getSchoolAdminProfileService,
+  updateSchoolAdminProfileService
 } = require("../services/schoolService");
-
 // Create School
 const createSchool = async (req, res) => {
   try {
@@ -146,6 +149,128 @@ const loginSchoolAdmin = async (req, res) => {
 
   }
 };
+// Reset School Admin Password
+const resetSchoolAdminPassword = async (
+  req,
+  res
+) => {
+
+  try {
+
+    const result =
+      await resetSchoolAdminPasswordService(
+        req.body.email
+      );
+
+    return res.status(200).json({
+      success: true,
+      data: result
+    });
+
+  } catch (error) {
+
+    return res.status(400).json({
+      success: false,
+      message: error.message
+    });
+
+  }
+
+};
+
+// School Admin Profile
+const getSchoolAdminProfile = async (
+  req,
+  res
+) => {
+
+  try {
+
+    const profile =
+      await getSchoolAdminProfileService(
+        req.user.schoolId
+      );
+
+    return res.status(200).json({
+      success: true,
+      data: profile
+    });
+
+  } catch (error) {
+
+    return res.status(400).json({
+      success: false,
+      message: error.message
+    });
+
+  }
+
+};
+
+// Update School Admin Profile
+const updateSchoolAdminProfile = async (
+  req,
+  res
+) => {
+
+  try {
+
+    const result =
+      await updateSchoolAdminProfileService(
+        req.user.schoolId,
+        req.body
+      );
+
+    return res.status(200).json({
+      success: true,
+      data: result
+    });
+
+  } catch (error) {
+
+    return res.status(400).json({
+      success: false,
+      message: error.message
+    });
+
+  }
+
+};
+// Change School Admin Password
+const changeSchoolAdminPassword = async (
+  req,
+  res
+) => {
+
+  try {
+
+    const {
+      oldPassword,
+      newPassword
+    } = req.body;
+
+    const result =
+      await changeSchoolAdminPasswordService(
+        req.user.schoolId,
+        oldPassword,
+        newPassword
+      );
+
+    return res.status(200).json({
+      success: true,
+      data: result
+    });
+
+  } catch (error) {
+
+    return res.status(400).json({
+      success: false,
+      message: error.message
+    });
+
+  }
+
+};
 
 // Delete School
 const deleteSchool = async (req, res) => {
@@ -178,5 +303,9 @@ module.exports = {
   getSchoolById,
   updateSchool,
   loginSchoolAdmin,
+  resetSchoolAdminPassword,
+  changeSchoolAdminPassword,
+  getSchoolAdminProfile,
+  updateSchoolAdminProfile,
   deleteSchool
 };

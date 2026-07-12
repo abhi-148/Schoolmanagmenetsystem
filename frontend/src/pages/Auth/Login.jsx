@@ -36,6 +36,7 @@ function Login() {
       setLoading(true);
 
       const response = await loginUser(formData);
+      console.log(response);
 
       console.log("API Response:", response);
 
@@ -43,20 +44,12 @@ function Login() {
         throw new Error("Token not received");
       }
 
-     login(response.token);
+   
 
-localStorage.setItem(
-  "token",
-  response.token
-);
-localStorage.setItem(
-  "role",
-  response.role
-);
-
-localStorage.setItem(
-  "role",
-  response.role || "SUPER_ADMIN"
+login(
+response.token,
+response.role,
+response.schoolId
 );
 
       alert("Login Successful");
@@ -97,9 +90,9 @@ localStorage.setItem(
         <form onSubmit={handleSubmit}>
 
           <input
-            type="email"
-            name="email"
-            placeholder="Enter Email"
+           type="text"
+name="email"
+placeholder="Enter Email / Roll Number"
             className="w-full border p-3 rounded-lg mb-4"
             value={formData.email}
             onChange={handleChange}

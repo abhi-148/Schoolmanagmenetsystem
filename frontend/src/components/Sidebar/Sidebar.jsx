@@ -36,8 +36,8 @@ function Sidebar() {
   const location =
     useLocation();
 
-  const role =
-    localStorage.getItem("role");
+const role =
+localStorage.getItem("role") || "";
 
   const [isOpen, setIsOpen] =
     useState(false);
@@ -79,6 +79,10 @@ function Sidebar() {
     localStorage.removeItem(
       "role"
     );
+
+    localStorage.removeItem(
+"schoolId"
+);
 
     localStorage.removeItem(
       "user"
@@ -240,15 +244,24 @@ function Sidebar() {
               </li>
             )}
 
-            <li>
+         {(role === "SUPER_ADMIN" ||
+  role === "SCHOOL_ADMIN") && (
+
+<li>
   <Link
     to="/school-branches"
     className={linkClass("/school-branches")}
+    onClick={() => setIsOpen(false)}
   >
     <School size={20} />
     School Branches
   </Link>
 </li>
+
+)}
+
+{(role === "SUPER_ADMIN" ||
+  role === "SCHOOL_ADMIN") && (
 
 <li>
   <Link
@@ -261,6 +274,11 @@ function Sidebar() {
   </Link>
 </li>
 
+)}
+
+{(role === "SUPER_ADMIN" ||
+  role === "SCHOOL_ADMIN") && (
+
 <li>
   <Link
     to="/school-periods"
@@ -272,53 +290,68 @@ function Sidebar() {
   </Link>
 </li>
 
+)}
+{(role === "SUPER_ADMIN" ||
+  role === "SCHOOL_ADMIN") && (
+
 <li>
   <Link
     to="/school-classes"
     className={linkClass("/school-classes")}
+    onClick={() => setIsOpen(false)}
   >
     <BookOpen size={20} />
     School Classes
   </Link>
 </li>
+
+)}
+{role === "SUPER_ADMIN" && (
+
 <li>
   <Link
     to="/master-mediums"
-    className={linkClass(
-      "/master-mediums"
-    )}
+    className={linkClass("/master-mediums")}
+    onClick={() => setIsOpen(false)}
   >
     <Languages size={20} />
     Master Mediums
   </Link>
 </li>
 
+)}
+
+{(role === "SUPER_ADMIN" ||
+  role === "SCHOOL_ADMIN") && (
+
 <li>
   <Link
     to="/school-mediums"
-    className={linkClass(
-      "/school-mediums"
-    )}
+    className={linkClass("/school-mediums")}
+    onClick={() => setIsOpen(false)}
   >
     <Languages size={20} />
     School Mediums
   </Link>
 </li>
 
-            <li>
-              <Link
-                to="/staff"
-                className={linkClass(
-                  "/staff"
-                )}
-                onClick={() =>
-                  setIsOpen(false)
-                }
-              >
-                <Users size={20} />
-                Staff
-              </Link>
-            </li>
+)}
+
+           {(role === "SUPER_ADMIN" ||
+  role === "SCHOOL_ADMIN") && (
+
+<li>
+  <Link
+    to="/staff"
+    className={linkClass("/staff")}
+    onClick={() => setIsOpen(false)}
+  >
+    <Users size={20} />
+    Staff
+  </Link>
+</li>
+
+)}
 
             {role ===
               "SUPER_ADMIN" && (
@@ -356,20 +389,20 @@ function Sidebar() {
               </li>
             )}
 
-            <li>
-              <Link
-                to="/students"
-                className={linkClass(
-                  "/students"
-                )}
-                onClick={() =>
-                  setIsOpen(false)
-                }
-              >
-                <UserCheck size={20} />
-                Students
-              </Link>
-            </li>
+           {role !== "STUDENT" && (
+
+<li>
+  <Link
+    to="/students"
+    className={linkClass("/students")}
+    onClick={() => setIsOpen(false)}
+  >
+    <UserCheck size={20} />
+    Students
+  </Link>
+</li>
+
+)}
 
             <li>
               <Link
@@ -386,168 +419,218 @@ function Sidebar() {
               </Link>
             </li>
 
-            <li>
-              <Link
-                to="/fees"
-                className={linkClass(
-                  "/fees"
-                )}
-                onClick={() =>
-                  setIsOpen(false)
-                }
-              >
-                <CreditCard size={20} />
-                Fees
-              </Link>
-            </li>
+            {(role === "SUPER_ADMIN" ||
+  role === "SCHOOL_ADMIN") && (
 
-            <li>
+<li>
+  <Link
+    to="/fees"
+    className={linkClass("/fees")}
+    onClick={() => setIsOpen(false)}
+  >
+    <CreditCard size={20} />
+    Fees
+  </Link>
+</li>
+
+)}
+
+         {(role === "SUPER_ADMIN" ||
+  role === "SCHOOL_ADMIN") && (
+
+<li>
   <Link
     to="/fee-structure"
-    className={linkClass(
-      "/fee-structure"
-    )}
-    onClick={() =>
-      setIsOpen(false)
-    }
+    className={linkClass("/fee-structure")}
+    onClick={() => setIsOpen(false)}
   >
     <CreditCard size={20} />
     Fee Structure
   </Link>
 </li>
 
+)}
+
+{(role === "SUPER_ADMIN" ||
+  role === "SCHOOL_ADMIN") && (
+
 <li>
   <Link
     to="/student-fees"
-    className={linkClass(
-      "/student-fees"
-    )}
-    onClick={() =>
-      setIsOpen(false)
-    }
+    className={linkClass("/student-fees")}
+    onClick={() => setIsOpen(false)}
   >
     <CreditCard size={20} />
     Fee Collection
   </Link>
 </li>
+
+)}
+
+
+{role !== "STUDENT" && (
+
 <li>
   <Link
     to="/classes"
-    className={linkClass(
-      "/classes"
-    )}
-    onClick={() =>
-      setIsOpen(false)
-    }
+    className={linkClass("/classes")}
+    onClick={() => setIsOpen(false)}
   >
     <BookOpen size={20} />
     Classes
   </Link>
 </li>
+
+)}
+
+
+{(role === "SUPER_ADMIN" ||
+  role === "SCHOOL_ADMIN" ||
+  role === "STAFF") && (
+
 <li>
   <Link
     to="/exams"
-    className={linkClass(
-      "/exams"
-    )}
-    onClick={() =>
-      setIsOpen(false)
-    }
+    className={linkClass("/exams")}
+    onClick={() => setIsOpen(false)}
   >
     <BookOpen size={20} />
     Exams
   </Link>
 </li>
 
+)}
+
+{(role === "SUPER_ADMIN" ||
+  role === "SCHOOL_ADMIN" ||
+  role === "STAFF" ||
+  role === "STUDENT") && (
+
 <li>
   <Link
     to="/student-marks"
-    className={linkClass(
-      "/student-marks"
-    )}
-    onClick={() =>
-      setIsOpen(false)
-    }
+    className={linkClass("/student-marks")}
+    onClick={() => setIsOpen(false)}
   >
     <FileText size={20} />
     Student Marks
   </Link>
 </li>
 
-<li>
-
+)}
+{(role === "SUPER_ADMIN" ||
+  role === "SCHOOL_ADMIN" ||
+  role === "STAFF") && (
   <li>
-  <Link
-    to="/exam-timetable"
-    className={linkClass(
-      "/exam-timetable"
-    )}
-    onClick={() =>
-      setIsOpen(false)
-    }
-  >
-    <CalendarDays size={20} />
-    Exam Timetable
-  </Link>
-</li>
-  <Link
-    to="/report-card"
-    className={linkClass(
-      "/report-card"
-    )}
-    onClick={() =>
-      setIsOpen(false)
-    }
-  >
-    <FileText size={20} />
-    Report Card
-  </Link>
-</li>
+    <Link
+      to="/exam-timetable"
+      className={linkClass("/exam-timetable")}
+      onClick={() => setIsOpen(false)}
+    >
+      <CalendarDays size={20} />
+      Exam Timetable
+    </Link>
+  </li>
+)}
+{(role === "SUPER_ADMIN" ||
+  role === "SCHOOL_ADMIN" ||
+  role === "STAFF" ||
+  role === "STUDENT") && (
+  <li>
+    <Link
+      to="/report-card"
+      className={linkClass("/report-card")}
+      onClick={() => setIsOpen(false)}
+    >
+      <FileText size={20} />
+      Report Card
+    </Link>
+  </li>
+)}
+
+
+{(role === "SUPER_ADMIN" ||
+  role === "SCHOOL_ADMIN" ||
+  role === "STAFF" ||
+  role === "STUDENT") && (
 
 <li>
   <Link
     to="/timetable"
-    className={linkClass(
-      "/timetable"
-    )}
-    onClick={() =>
-      setIsOpen(false)
-    }
+    className={linkClass("/timetable")}
+    onClick={() => setIsOpen(false)}
   >
     <Clock3 size={20} />
     Timetable
   </Link>
 </li>
 
+)}
+
+{(role === "SUPER_ADMIN" ||
+  role === "SCHOOL_ADMIN") && (
+
 <li>
   <Link
     to="/timetable-substitutions"
-    className={linkClass(
-      "/timetable-substitutions"
-    )}
-    onClick={() =>
-      setIsOpen(false)
-    }
+    className={linkClass("/timetable-substitutions")}
+    onClick={() => setIsOpen(false)}
   >
     <Clock3 size={20} />
     Timetable Substitution
   </Link>
 </li>
 
-            <li>
-              <Link
-                to="/ai"
-                className={linkClass(
-                  "/ai"
-                )}
-                onClick={() =>
-                  setIsOpen(false)
-                }
-              >
-                <Bot size={20} />
-                AI Assistant
-              </Link>
-            </li>
+)}
+
+            {(role === "SUPER_ADMIN" ||
+  role === "SCHOOL_ADMIN") && (
+
+<li>
+  <Link
+    to="/ai"
+    className={linkClass("/ai")}
+    onClick={() => setIsOpen(false)}
+  >
+    <Bot size={20} />
+    AI Assistant
+  </Link>
+</li>
+
+)}
+
+{(role === "SUPER_ADMIN" ||
+  role === "SCHOOL_ADMIN") && (
+
+<li>
+  <Link
+    to="/school-transfers"
+    className={linkClass("/school-transfers")}
+    onClick={() => setIsOpen(false)}
+  >
+    <School size={20} />
+    School Transfers
+  </Link>
+</li>
+
+)}
+
+
+{(role === "SUPER_ADMIN" ||
+  role === "SCHOOL_ADMIN") && (
+
+<li>
+  <Link
+    to="/branch-transfers"
+    className={linkClass("/branch-transfers")}
+    onClick={() => setIsOpen(false)}
+  >
+    <Building2 size={20} />
+    Branch Transfers
+  </Link>
+</li>
+
+)}
 
             <li>
               <Link

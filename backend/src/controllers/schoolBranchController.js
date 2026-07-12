@@ -16,11 +16,12 @@ async (req, res) => {
   try {
 
     const result =
-      await createSchoolBranchService({
-        ...req.body,
-        created_by:
-          req.user.id
-      });
+await createSchoolBranchService({
+  ...req.body,
+  created_by: req.user.id,
+  created_by_role: req.user.role,
+  schoolId: req.user.schoolId
+});
 
     return res.status(201).json({
       success: true,
@@ -44,8 +45,10 @@ async (req, res) => {
 
   try {
 
-    const data =
-      await getAllSchoolBranchesService();
+   const data =
+await getAllSchoolBranchesService(
+  req.user
+);
 
     return res.status(200).json({
       success: true,
@@ -124,13 +127,13 @@ async (req, res) => {
   try {
 
     await updateSchoolBranchService(
-      req.params.id,
-      {
-        ...req.body,
-        updated_by:
-          req.user.id
-      }
-    );
+  req.params.id,
+  {
+    ...req.body,
+    updated_by: req.user.id
+  },
+  req.user
+);
 
     return res.status(200).json({
       success: true,
@@ -155,9 +158,10 @@ async (req, res) => {
 
   try {
 
-    await deleteSchoolBranchService(
-      req.params.id
-    );
+  await deleteSchoolBranchService(
+  req.params.id,
+  req.user
+);
 
     return res.status(200).json({
       success: true,

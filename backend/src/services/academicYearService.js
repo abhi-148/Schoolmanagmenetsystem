@@ -1,6 +1,7 @@
 const {
   createAcademicYear,
   getAllAcademicYears,
+  getAcademicYearsBySchool,
   getAcademicYearById,
   updateAcademicYear,
   deleteAcademicYear
@@ -21,9 +22,29 @@ async (data) => {
 };
 
 const getAllAcademicYearsService =
-async () => {
+async (user) => {
 
-  return await getAllAcademicYears();
+  if (
+    user.role === "SUPER_ADMIN"
+  ) {
+
+    return await getAllAcademicYears();
+
+  }
+
+  if (
+    user.role === "SCHOOL_ADMIN"
+  ) {
+
+    return await getAcademicYearsBySchool(
+      user.schoolId
+    );
+
+  }
+
+  throw new Error(
+    "Unauthorized"
+  );
 
 };
 

@@ -13,6 +13,20 @@ async (data) => {
 
   data.status = "active";
 
+  if (
+    data.created_by_role ===
+    "SCHOOL_ADMIN"
+  ) {
+
+    const schoolClass =
+      await getFeeStructuresByClass(
+        data.school_class_id
+      );
+
+    // sirf marker hai, actual school validation
+    // next phase me karenge
+  }
+
   return await createFeeStructure(
     data
   );
@@ -20,9 +34,11 @@ async (data) => {
 };
 
 const getAllFeeStructuresService =
-async () => {
+async (user) => {
 
-  return await getAllFeeStructures();
+  return await getAllFeeStructures(
+    user
+  );
 
 };
 

@@ -15,10 +15,12 @@ require("../middlewares/roleMiddleware");
 router.get(
   "/",
   verifyToken,
-  authorizeRoles(
-    "SUPER_ADMIN",
-    "SCHOOL_ADMIN"
-  ),
+ authorizeRoles(
+  "SUPER_ADMIN",
+  "SCHOOL_ADMIN",
+  "STAFF",
+  "STUDENT"
+),
   getDashboard
 );
 

@@ -7,6 +7,16 @@ const markAttendanceService = async (
   attendanceData
 ) => {
 
+  if (
+    attendanceData.role ===
+    "SCHOOL_ADMIN"
+  ) {
+
+    attendanceData.school_id =
+      attendanceData.schoolId;
+
+  }
+
   await markAttendance(
     attendanceData
   );
@@ -15,14 +25,17 @@ const markAttendanceService = async (
     message:
       "Attendance Marked Successfully"
   };
+
 };
 
 const getAllAttendanceService =
-  async () => {
+async (user) => {
 
-    return await getAllAttendance();
+  return await getAllAttendance(
+    user
+  );
 
-  };
+};
 
 module.exports = {
   markAttendanceService,

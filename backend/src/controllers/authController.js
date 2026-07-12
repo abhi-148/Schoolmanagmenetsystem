@@ -15,17 +15,17 @@ const login = async (req, res) => {
       password
     } = req.body;
 
-    const token =
+    const result =
       await loginSuperAdminService(
         email,
         password
       );
 
-   return res.status(200).json({
-  success: true,
-  token,
-  role: "SUPER_ADMIN"
-});
+    return res.status(200).json({
+      success: true,
+      token: result.token,
+      role: result.role
+    });
 
   } catch (error) {
 

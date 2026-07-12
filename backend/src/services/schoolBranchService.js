@@ -4,17 +4,28 @@ const {
   getSchoolBranchById,
   getBranchesBySchool,
   updateSchoolBranch,
-  deleteSchoolBranch
+  updateSchoolBranchBySchool,
+  deleteSchoolBranch,
+  deleteSchoolBranchBySchool
 } = require(
   "../repositories/schoolBranchRepository"
 );
-
 // Create Branch
 const createSchoolBranchService =
 async (branchData) => {
 
   branchData.status =
     branchData.status || "active";
+
+  if (
+    branchData.created_by_role ===
+    "SCHOOL_ADMIN"
+  ) {
+
+    branchData.school_id =
+      branchData.schoolId;
+
+  }
 
   return await createSchoolBranch(
     branchData
@@ -24,12 +35,13 @@ async (branchData) => {
 
 // Get All Branches
 const getAllSchoolBranchesService =
-async () => {
+async (user) => {
 
-  return await getAllSchoolBranches();
+  return await getAllSchoolBranches(
+    user
+  );
 
 };
-
 // Get Branch By Id
 const getSchoolBranchByIdService =
 async (id) => {
@@ -54,23 +66,66 @@ async (schoolId) => {
 const updateSchoolBranchService =
 async (
   id,
-  data
+  data,
+  user
 ) => {
 
-  return await updateSchoolBranch(
-    id,
-    data
-  );
+  if (
+    user.role === "SUPER_ADMIN"
+  ) {
+
+    return await updateSchoolBranch(
+      id,
+      data
+    );
+
+  }
+
+  if (
+    user.role === "SCHOOL_ADMIN"
+  ) {
+
+    return await updateSchoolBranchBySchool(
+      id,
+      data,
+      user.schoolId
+    );
+
+  }
+
+  throw new Error("Unauthorized");
 
 };
 
 // Delete Branch
 const deleteSchoolBranchService =
-async (id) => {
+async (
+  id,
+  user
+) => {
 
-  return await deleteSchoolBranch(
-    id
-  );
+  if (
+    user.role === "SUPER_ADMIN"
+  ) {
+
+    return await deleteSchoolBranch(
+      id
+    );
+
+  }
+
+  if (
+    user.role === "SCHOOL_ADMIN"
+  ) {
+
+    return await deleteSchoolBranchBySchool(
+      id,
+      user.schoolId
+    );
+
+  }
+
+  throw new Error("Unauthorized");
 
 };
 

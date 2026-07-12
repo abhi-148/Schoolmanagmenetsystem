@@ -2,6 +2,8 @@ const {
   createStaffService,
   getAllStaffService,
   loginStaffService,
+  getStaffProfileService,
+  changeStaffPasswordService,
   updateStaffService,
   deleteStaffService
 } = require("../services/staffService");
@@ -43,8 +45,10 @@ const getAllStaff = async (req, res) => {
 
   try {
 
-    const staff =
-      await getAllStaffService();
+   const staff =
+  await getAllStaffService(
+    req.user
+  );
 
     return res.status(200).json({
       success: true,
@@ -104,6 +108,65 @@ const loginStaff = async (req, res) => {
 
 };
 
+// Staff Profile
+const getStaffProfile = async (req, res) => {
+
+  try {
+
+    const profile =
+      await getStaffProfileService(
+        req.user.id
+      );
+
+    return res.status(200).json({
+      success: true,
+      data: profile
+    });
+
+  } catch (error) {
+
+    return res.status(400).json({
+      success: false,
+      message: error.message
+    });
+
+  }
+
+};
+
+// Change Staff Password
+const changeStaffPassword = async (req, res) => {
+
+  try {
+
+    const {
+      oldPassword,
+      newPassword
+    } = req.body;
+
+    const result =
+      await changeStaffPasswordService(
+        req.user.id,
+        oldPassword,
+        newPassword
+      );
+
+    return res.status(200).json({
+      success: true,
+      data: result
+    });
+
+  } catch (error) {
+
+    return res.status(400).json({
+      success: false,
+      message: error.message
+    });
+
+  }
+
+};
+
 // Update Staff
 const updateStaff = async (req, res) => {
 
@@ -138,6 +201,41 @@ const updateStaff = async (req, res) => {
   }
 
 };
+
+// Update Own Profile
+const updateOwnProfile = async (req, res) => {
+
+  try {
+
+    await updateStaffService(
+      req.user.id,
+      {
+        ...req.body,
+        updated_by: req.user.id
+      }
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Profile Updated Successfully"
+    });
+
+  } catch (error) {
+
+    console.log(
+      "UPDATE PROFILE ERROR:",
+      error
+    );
+
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    });
+
+  }
+
+};
+
 
 // Delete Staff
 const deleteStaff = async (req, res) => {
@@ -174,6 +272,9 @@ module.exports = {
   createStaff,
   getAllStaff,
   loginStaff,
+  getStaffProfile,
+  changeStaffPassword,
   updateStaff,
+  updateOwnProfile,
   deleteStaff
 };

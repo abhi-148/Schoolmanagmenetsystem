@@ -15,10 +15,12 @@ const markAttendance = async (
       req.body
     );
 
-    const result =
-      await markAttendanceService(
-        req.body
-      );
+   const result =
+await markAttendanceService({
+  ...req.body,
+  schoolId: req.user.schoolId,
+  role: req.user.role
+});
 
     return res.status(201).json({
       success: true,
@@ -48,8 +50,10 @@ const getAllAttendance = async (
 
   try {
 
-    const attendance =
-      await getAllAttendanceService();
+ const attendance =
+await getAllAttendanceService(
+  req.user
+);
 
     return res.status(200).json({
       success: true,

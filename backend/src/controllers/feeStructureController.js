@@ -13,11 +13,12 @@ const createFeeStructure = async (req, res) => {
 
   try {
 
-    const result =
-      await createFeeStructureService({
-        ...req.body,
-        created_by: req.user.id
-      });
+   await createFeeStructureService({
+  ...req.body,
+  created_by: req.user.id,
+  created_by_role: req.user.role,
+  schoolId: req.user.schoolId
+});
 
     return res.status(201).json({
       success: true,
@@ -46,8 +47,10 @@ const getAllFeeStructures = async (req, res) => {
 
   try {
 
-    const data =
-      await getAllFeeStructuresService();
+ const data =
+await getAllFeeStructuresService(
+  req.user
+);
 
     return res.status(200).json({
       success: true,

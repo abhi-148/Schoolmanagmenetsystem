@@ -141,6 +141,15 @@ const timeTableSubstitutionRoutes = require(
   "./src/routes/timeTableSubstitutionRoutes"
 );
 
+// School Transfer
+const schoolTransferRoutes = require(
+  "./src/routes/schoolTransferRoutes"
+);
+
+const branchTransferRoutes = require(
+  "./src/routes/branchTransferRoutes"
+);
+
 // Health Check
 app.get("/", (req, res) => {
   res.status(200).json({
@@ -197,6 +206,17 @@ app.use(
 
 // Students
 app.use("/api/students", studentRoutes);
+
+// School Transfers
+app.use(
+  "/api/school-transfers",
+  schoolTransferRoutes
+);
+
+app.use(
+  "/api/branch-transfers",
+  branchTransferRoutes
+);
 
 // Attendance
 app.use(

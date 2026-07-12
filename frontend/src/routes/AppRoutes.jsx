@@ -49,6 +49,8 @@ import TimeTableSubstitution from "../pages/TimeTableSubstitution/TimeTableSubst
 import AddTimeTableSubstitution from "../pages/TimeTableSubstitution/AddTimeTableSubstitution";
 import EditTimeTableSubstitution from "../pages/TimeTableSubstitution/EditTimeTableSubstitution";
 import ViewTimeTableSubstitution from "../pages/TimeTableSubstitution/ViewTimeTableSubstitution";
+import SchoolTransfer from "../pages/SchoolTransfer/SchoolTransfer";
+import BranchTransfer from "../pages/BranchTransfer/BranchTransfer";
 import PrivateRoute from "./PrivateRoute";
 
 function AppRoutes() {
@@ -434,6 +436,24 @@ function AppRoutes() {
   element={
     <PrivateRoute>
       <ViewTimeTableSubstitution />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/school-transfers"
+  element={
+    <PrivateRoute>
+      <SchoolTransfer />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/branch-transfers"
+  element={
+    <PrivateRoute>
+      <BranchTransfer />
     </PrivateRoute>
   }
 />

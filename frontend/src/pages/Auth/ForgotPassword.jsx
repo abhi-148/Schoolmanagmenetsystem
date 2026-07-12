@@ -16,10 +16,9 @@ function ForgotPassword() {
 
       const response =
       await forgotPassword(email);
-
-      alert(
-        response.data.message
-      );
+alert(
+response.data.data.message
+);
 
     } catch(error){
 

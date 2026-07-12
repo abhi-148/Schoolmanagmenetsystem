@@ -24,13 +24,44 @@ const markAttendance = async (
   return result;
 };
 
-const getAllAttendance = async () => {
+const getAllAttendance = async (
+  user
+) => {
 
-  const [rows] = await pool.query(
-    `SELECT * FROM attendance`
-  );
+  let query = `
+    SELECT *
+    FROM attendance
+  `;
+
+  let params = [];
+
+  if (
+    user.role ===
+    "SCHOOL_ADMIN"
+  ) {
+
+    query += `
+      WHERE school_id = ?
+    `;
+
+    params.push(
+      user.schoolId
+    );
+
+  }
+
+  query += `
+    ORDER BY id DESC
+  `;
+
+  const [rows] =
+    await pool.query(
+      query,
+      params
+    );
 
   return rows;
+
 };
 
 module.exports = {

@@ -1,10 +1,13 @@
 const {
   createSchoolClass,
   getAllSchoolClasses,
+  getSchoolClassesBySchool,
   getSchoolClassById,
   getSchoolClassesByBranch,
   updateSchoolClass,
-  deleteSchoolClass
+  updateSchoolClassBySchool,
+  deleteSchoolClass,
+  deleteSchoolClassBySchool
 } = require("../repositories/schoolClassRepository");
 
 // Create
@@ -13,6 +16,15 @@ async (classData) => {
 
   classData.status =
     classData.status || "active";
+    if (
+  classData.created_by_role ===
+  "SCHOOL_ADMIN"
+) {
+
+  classData.school_id =
+    classData.schoolId;
+
+}
 
   return await createSchoolClass(
     classData
@@ -22,9 +34,29 @@ async (classData) => {
 
 // Get All
 const getAllSchoolClassesService =
-async () => {
+async (user) => {
 
-  return await getAllSchoolClasses();
+  if (
+    user.role === "SUPER_ADMIN"
+  ) {
+
+    return await getAllSchoolClasses();
+
+  }
+
+  if (
+    user.role === "SCHOOL_ADMIN"
+  ) {
+
+    return await getSchoolClassesBySchool(
+      user.schoolId
+    );
+
+  }
+
+  throw new Error(
+    "Unauthorized"
+  );
 
 };
 
@@ -38,11 +70,38 @@ async (id) => {
 
 };
 const updateSchoolClassService =
-async (id, data) => {
+async (
+  id,
+  data
+) => {
 
-  return await updateSchoolClass(
-    id,
-    data
+  if (
+    data.updated_by_role ===
+    "SUPER_ADMIN"
+  ) {
+
+    return await updateSchoolClass(
+      id,
+      data
+    );
+
+  }
+
+  if (
+    data.updated_by_role ===
+    "SCHOOL_ADMIN"
+  ) {
+
+    return await updateSchoolClassBySchool(
+      id,
+      data,
+      data.schoolId
+    );
+
+  }
+
+  throw new Error(
+    "Unauthorized"
   );
 
 };
@@ -59,10 +118,36 @@ async (branchId) => {
 
 // Delete
 const deleteSchoolClassService =
-async (id) => {
+async (
+  id,
+  user
+) => {
 
-  return await deleteSchoolClass(
-    id
+  if (
+    user.role ===
+    "SUPER_ADMIN"
+  ) {
+
+    return await deleteSchoolClass(
+      id
+    );
+
+  }
+
+  if (
+    user.role ===
+    "SCHOOL_ADMIN"
+  ) {
+
+    return await deleteSchoolClassBySchool(
+      id,
+      user.schoolId
+    );
+
+  }
+
+  throw new Error(
+    "Unauthorized"
   );
 
 };
@@ -72,5 +157,6 @@ module.exports = {
   getAllSchoolClassesService,
   getSchoolClassByIdService,
   getSchoolClassesByBranchService,
+  updateSchoolClassService,
   deleteSchoolClassService
 };

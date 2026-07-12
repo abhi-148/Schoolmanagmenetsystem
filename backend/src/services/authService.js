@@ -14,9 +14,9 @@ const {
   loginSuperAdmin,
   findSuperAdminById,
   updateSuperAdminPassword,
-  updateSuperAdminProfile
+  updateSuperAdminProfile,
+  findSchoolAdminByEmail
 } = require("../repositories/authRepository");
-
 // Create Default Super Admin
 const createDefaultSuperAdmin = async () => {
 
@@ -58,39 +58,71 @@ const loginSuperAdminService = async (
   password
 ) => {
 
+  // SUPER ADMIN LOGIN
   const admin =
     await loginSuperAdmin(email);
 
-  if (!admin) {
-    throw new Error(
-      "Invalid Email"
-    );
+  if (admin) {
+
+    const isMatch =
+      await bcrypt.compare(
+        password,
+        admin.password
+      );
+
+    if (!isMatch) {
+      throw new Error("Invalid Password");
+    }
+
+    return {
+      token: jwt.sign(
+        {
+          id: admin.id,
+          role: "SUPER_ADMIN"
+        },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "1d"
+        }
+      ),
+      role: "SUPER_ADMIN"
+    };
+
+  }
+
+  // SCHOOL ADMIN LOGIN
+  const school =
+    await findSchoolAdminByEmail(email);
+
+  if (!school) {
+    throw new Error("Invalid Email");
   }
 
   const isMatch =
     await bcrypt.compare(
       password,
-      admin.password
+      school.admin_password
     );
 
   if (!isMatch) {
-    throw new Error(
-      "Invalid Password"
-    );
+    throw new Error("Invalid Password");
   }
 
-  const token = jwt.sign(
-    {
-      id: admin.id,
-      role: "SUPER_ADMIN"
-    },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: "1d"
-    }
-  );
+  return {
+    token: jwt.sign(
+      {
+        id: school.id,
+        schoolId: school.id,
+        role: "SCHOOL_ADMIN"
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d"
+      }
+    ),
+    role: "SCHOOL_ADMIN"
+  };
 
-  return token;
 };
 
 // Change Password

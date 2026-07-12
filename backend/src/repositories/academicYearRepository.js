@@ -100,10 +100,28 @@ const deleteAcademicYear = async (id) => {
 
   return result;
 };
+// Get Academic Years By School
+const getAcademicYearsBySchool = async (
+  schoolId
+) => {
 
+  const [rows] = await pool.query(
+    `
+    SELECT *
+    FROM academic_years
+    WHERE school_id = ?
+    ORDER BY id DESC
+    `,
+    [schoolId]
+  );
+
+  return rows;
+
+};
 module.exports = {
   createAcademicYear,
   getAllAcademicYears,
+  getAcademicYearsBySchool,
   getAcademicYearById,
   updateAcademicYear,
   deleteAcademicYear

@@ -2,6 +2,7 @@ const {
   createBatch,
   findBatchDuplicate,
   getAllBatches,
+  getBatchesBySchool,
   getBatchById,
   updateBatch,
   deleteBatch
@@ -27,9 +28,32 @@ const createBatchService = async (data) => {
   return await createBatch(data);
 };
 
-const getAllBatchesService =
-async () => {
-  return await getAllBatches();
+const getAllBatchesService = async (
+  user
+) => {
+
+  if (
+    user.role === "SUPER_ADMIN"
+  ) {
+
+    return await getAllBatches();
+
+  }
+
+  if (
+    user.role === "SCHOOL_ADMIN"
+  ) {
+
+    return await getBatchesBySchool(
+      user.schoolId
+    );
+
+  }
+
+  throw new Error(
+    "Unauthorized"
+  );
+
 };
 
 const getBatchByIdService =

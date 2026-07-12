@@ -13,9 +13,12 @@ async (req,res) => {
 try {
 
 const result =
-await createDepartmentService(
-req.body
-);
+await createDepartmentService({
+  ...req.body,
+  created_by: req.user.id,
+  created_by_role: req.user.role,
+  schoolId: req.user.schoolId
+});
 
 return res.status(201).json({
 success:true,
@@ -40,7 +43,9 @@ async (req,res) => {
 try {
 
 const result =
-await getAllDepartmentsService();
+await getAllDepartmentsService(
+  req.user
+);
 
 return res.status(200).json({
 success:true,
@@ -65,8 +70,11 @@ async (req,res) => {
 try {
 
 await updateDepartmentService(
-req.params.id,
-req.body
+  req.params.id,
+  {
+    ...req.body,
+    updated_by: req.user.id
+  }
 );
 
 return res.status(200).json({

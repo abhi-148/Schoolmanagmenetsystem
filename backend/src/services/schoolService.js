@@ -13,7 +13,11 @@ const {
   getSchoolById,
   updateSchool,
   findSchoolAdminByEmail,
-  deleteSchool
+  findSchoolAdminById,
+  deleteSchool,
+  updateSchoolAdminPassword,
+  getSchoolAdminProfile,
+  updateSchoolAdminProfile
 } = require("../repositories/schoolRepository");
 
 const createSchoolService = async (
@@ -143,6 +147,15 @@ async (
 
   }
 
+  // ADD THIS HERE
+if (admin.status !== "ACTIVE") {
+
+  throw new Error(
+    "School Account is Inactive"
+  );
+
+}
+
   const isMatch =
     await bcrypt.compare(
       password,
@@ -174,6 +187,107 @@ async (
   return token;
 
 };
+
+const resetSchoolAdminPasswordService =
+async (email) => {
+
+  const admin =
+    await findSchoolAdminByEmail(email);
+
+  if (!admin) {
+    throw new Error("School Admin Not Found");
+  }
+
+  const hashedPassword =
+    await bcrypt.hash(
+      "Abhi@123",
+      10
+    );
+
+  await updateSchoolAdminPassword(
+    admin.id,
+    hashedPassword
+  );
+
+  return {
+    message: "Password Reset Successfully",
+    password: "Abhi@123"
+  };
+
+};
+
+const changeSchoolAdminPasswordService =
+async (
+  adminId,
+  oldPassword,
+  newPassword
+) => {
+
+  const admin =
+    await findSchoolAdminById(
+      adminId
+    );
+
+  if (!admin) {
+
+    throw new Error(
+      "School Admin Not Found"
+    );
+
+  }
+
+  const isMatch =
+    await bcrypt.compare(
+      oldPassword,
+      admin.admin_password
+    );
+
+  if (!isMatch) {
+
+    throw new Error(
+      "Old Password Incorrect"
+    );
+
+  }
+
+  const hashedPassword =
+    await bcrypt.hash(
+      newPassword,
+      10
+    );
+
+  await updateSchoolAdminPassword(
+    adminId,
+    hashedPassword
+  );
+
+  return {
+    message:
+      "Password Changed Successfully"
+  };
+
+};
+const getSchoolAdminProfileService =
+async (id) => {
+
+  return await getSchoolAdminProfile(id);
+
+};
+
+const updateSchoolAdminProfileService =
+async (id, data) => {
+
+  await updateSchoolAdminProfile(
+    id,
+    data
+  );
+
+  return {
+    message:
+      "Profile Updated Successfully"
+  };
+
+};
 const deleteSchoolService =
 async (id) => {
 
@@ -182,12 +296,15 @@ async (id) => {
   );
 
 };
-
 module.exports = {
   createSchoolService,
   getAllSchoolsService,
   getSchoolByIdService,
   updateSchoolService,
   loginSchoolAdminService,
-  deleteSchoolService
+  resetSchoolAdminPasswordService,
+  changeSchoolAdminPasswordService,
+  deleteSchoolService,
+  getSchoolAdminProfileService,
+  updateSchoolAdminProfileService
 };

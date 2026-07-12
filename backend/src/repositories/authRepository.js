@@ -136,6 +136,19 @@ const deleteResetToken = async (
   return result;
 };
 
+const findSchoolAdminByEmail = async (email) => {
+
+  const [rows] = await pool.query(
+    `SELECT *
+     FROM school
+     WHERE admin_email = ?`,
+    [email]
+  );
+
+  return rows[0];
+
+};
+
 module.exports = {
   findSuperAdminByEmail,
   createSuperAdmin,
@@ -143,8 +156,8 @@ module.exports = {
   findSuperAdminById,
   updateSuperAdminPassword,
   updateSuperAdminProfile,
-
   saveResetToken,
   findResetToken,
-  deleteResetToken
+  deleteResetToken,
+   findSchoolAdminByEmail,
 };

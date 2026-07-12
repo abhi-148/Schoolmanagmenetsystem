@@ -8,9 +8,8 @@ const getDashboard = async (
 ) => {
 
   try {
-
-    const data =
-      await getDashboardService();
+const data =
+  await getDashboardService(req.user);
 
     return res.status(200).json({
       success: true,

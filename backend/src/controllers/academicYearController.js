@@ -43,7 +43,9 @@ async (req, res) => {
   try {
 
     const data =
-      await getAllAcademicYearsService();
+await getAllAcademicYearsService(
+  req.user
+);
 
     return res.status(200).json({
       success: true,

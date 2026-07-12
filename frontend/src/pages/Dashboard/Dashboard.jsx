@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import AdminLayout from "../../layouts/AdminLayout";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import { getDashboardData }
 from "../../services/dashboardService";
 function Dashboard() {
+
+  const { role } = useContext(AuthContext);
 
   const [dashboardData, setDashboardData] =
   useState({
@@ -55,6 +59,88 @@ console.log(
   }
 
 };
+
+if (role === "STUDENT") {
+
+  return (
+
+    <AdminLayout>
+
+      <div className="p-8">
+
+        <div className="bg-white rounded-xl shadow-sm p-8">
+
+          <h1 className="text-3xl font-bold">
+            🎓 Student Dashboard
+          </h1>
+
+          <p className="text-gray-500 mt-2">
+            {dashboardData.message}
+          </p>
+
+        </div>
+
+      </div>
+
+    </AdminLayout>
+
+  );
+
+}
+
+if (role === "STAFF") {
+
+  return (
+
+    <AdminLayout>
+
+      <div className="p-8">
+
+        <h1 className="text-3xl font-bold mb-8">
+          Staff Dashboard
+        </h1>
+
+        <div className="grid md:grid-cols-3 gap-6">
+
+          <div className="bg-white rounded-xl p-6 shadow">
+
+            <h3>Total Students</h3>
+
+            <h2 className="text-3xl font-bold mt-3">
+              {dashboardData.totalStudents}
+            </h2>
+
+          </div>
+
+          <div className="bg-white rounded-xl p-6 shadow">
+
+            <h3>Present Today</h3>
+
+            <h2 className="text-3xl font-bold mt-3">
+              {dashboardData.presentToday}
+            </h2>
+
+          </div>
+
+          <div className="bg-white rounded-xl p-6 shadow">
+
+            <h3>Absent Today</h3>
+
+            <h2 className="text-3xl font-bold mt-3">
+              {dashboardData.absentToday}
+            </h2>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </AdminLayout>
+
+  );
+
+}
 
   return (
 

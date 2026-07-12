@@ -59,6 +59,24 @@ const getSectionById = async (
 
   return rows[0];
 };
+const getSectionSchoolClass = async (
+  schoolClassId
+) => {
+
+  const [rows] = await pool.query(
+    `
+    SELECT
+      id,
+      school_id
+    FROM school_classes
+    WHERE id = ?
+    `,
+    [schoolClassId]
+  );
+
+  return rows[0];
+
+};
 
 // Get Sections By Class
 const getSectionsByClass =
@@ -88,10 +106,130 @@ const deleteSection = async (
   return result;
 };
 
+const deleteSectionBySchool = async (
+  id,
+  schoolId
+) => {
+
+  const [result] = await pool.query(
+    `
+    DELETE s
+    FROM sections s
+
+    JOIN school_classes sc
+      ON sc.id = s.school_class_id
+
+    WHERE
+      s.id = ?
+      AND sc.school_id = ?
+    `,
+    [
+      id,
+      schoolId
+    ]
+  );
+
+  return result;
+
+};
+
+const getSectionsBySchool = async (
+  schoolId
+) => {
+
+  const [rows] = await pool.query(
+    `
+    SELECT
+      s.*,
+      c.class_name
+
+    FROM sections s
+
+    JOIN school_classes sc
+      ON sc.id = s.school_class_id
+
+    JOIN classes c
+      ON c.id = sc.class_id
+
+    WHERE sc.school_id = ?
+
+    ORDER BY s.id DESC
+    `,
+    [schoolId]
+  );
+
+  return rows;
+
+};
+const getSectionByIdAndSchool = async (
+  id,
+  schoolId
+) => {
+
+  const [rows] = await pool.query(
+    `
+    SELECT
+      s.*,
+      sc.school_id
+
+    FROM sections s
+
+    JOIN school_classes sc
+      ON sc.id = s.school_class_id
+
+    WHERE
+      s.id = ?
+      AND sc.school_id = ?
+    `,
+    [
+      id,
+      schoolId
+    ]
+  );
+
+  return rows[0];
+
+};
+const getSectionsByClassAndSchool = async (
+  schoolClassId,
+  schoolId
+) => {
+
+  const [rows] = await pool.query(
+    `
+    SELECT
+      s.*
+
+    FROM sections s
+
+    JOIN school_classes sc
+      ON sc.id = s.school_class_id
+
+    WHERE
+      s.school_class_id = ?
+      AND sc.school_id = ?
+
+    ORDER BY s.id DESC
+    `,
+    [
+      schoolClassId,
+      schoolId
+    ]
+  );
+
+  return rows;
+
+};
+
 module.exports = {
   createSection,
   getAllSections,
   getSectionById,
+  getSectionsBySchool,
+  getSectionByIdAndSchool,
   getSectionsByClass,
-  deleteSection
+  getSectionSchoolClass,
+  deleteSection,
+  deleteSectionBySchool,
+  getSectionsByClassAndSchool
 };
