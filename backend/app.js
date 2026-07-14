@@ -84,6 +84,14 @@ const studentFeeRoutes = require(
   "./src/routes/studentFeeRoutes"
 );
 
+const libraryFinePaymentRoutes = require(
+"./src/routes/libraryFinePaymentRoutes"
+);
+
+const lostAndFoundRoutes = require(
+"./src/routes/lostAndFoundRoutes"
+);
+
 const examRoutes = require(
   "./src/routes/examRoutes"
 );
@@ -240,6 +248,16 @@ app.use(
 app.use(
   "/api/student-fees",
   studentFeeRoutes
+);
+
+app.use(
+"/api/library-fine-payments",
+libraryFinePaymentRoutes
+);
+
+app.use(
+"/api/lost-and-found",
+lostAndFoundRoutes
 );
 
 // Exams
