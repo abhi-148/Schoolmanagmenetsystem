@@ -1,13 +1,13 @@
 import api from "./api";
 
 // ==============================
-// Get All Academic Years
+// Get All Follow Ups
 // ==============================
 
-export const getAcademicYears = async () => {
+export const getFollowUps = async () => {
 
   const response = await api.get(
-    "/academic-years"
+    "/admission-follow-ups"
   );
 
   return response.data;
@@ -15,15 +15,15 @@ export const getAcademicYears = async () => {
 };
 
 // ==============================
-// Get Academic Year By Id
+// Get Follow Up By Id
 // ==============================
 
-export const getAcademicYearById = async (
+export const getFollowUpById = async (
   id
 ) => {
 
   const response = await api.get(
-    `/academic-years/${id}`
+    `/admission-follow-ups/${id}`
   );
 
   return response.data;
@@ -31,15 +31,15 @@ export const getAcademicYearById = async (
 };
 
 // ==============================
-// Create Academic Year
+// Create Follow Up
 // ==============================
 
-export const createAcademicYear = async (
+export const createFollowUp = async (
   data
 ) => {
 
   const response = await api.post(
-    "/academic-years",
+    "/admission-follow-ups",
     data
   );
 
@@ -48,16 +48,16 @@ export const createAcademicYear = async (
 };
 
 // ==============================
-// Update Academic Year
+// Update Follow Up
 // ==============================
 
-export const updateAcademicYear = async (
+export const updateFollowUp = async (
   id,
   data
 ) => {
 
   const response = await api.put(
-    `/academic-years/${id}`,
+    `/admission-follow-ups/${id}`,
     data
   );
 
@@ -66,15 +66,15 @@ export const updateAcademicYear = async (
 };
 
 // ==============================
-// Delete Academic Year
+// Delete Follow Up
 // ==============================
 
-export const deleteAcademicYear = async (
+export const deleteFollowUp = async (
   id
 ) => {
 
   const response = await api.delete(
-    `/academic-years/${id}`
+    `/admission-follow-ups/${id}`
   );
 
   return response.data;
@@ -82,15 +82,15 @@ export const deleteAcademicYear = async (
 };
 
 // ==============================
-// Search Academic Years
+// Search Follow Ups
 // ==============================
 
-export const searchAcademicYears = async (
+export const searchFollowUps = async (
   keyword
 ) => {
 
   const response = await api.get(
-    `/academic-years/search?keyword=${keyword}`
+    `/admission-follow-ups/search?keyword=${keyword}`
   );
 
   return response.data;
@@ -98,13 +98,15 @@ export const searchAcademicYears = async (
 };
 
 // ==============================
-// Get Current Academic Year
+// Get Follow Ups By Inquiry
 // ==============================
 
-export const getCurrentAcademicYear = async () => {
+export const getFollowUpsByInquiry = async (
+  inquiryId
+) => {
 
   const response = await api.get(
-    "/academic-years/current"
+    `/admission-follow-ups/inquiry/${inquiryId}`
   );
 
   return response.data;
@@ -112,13 +114,15 @@ export const getCurrentAcademicYear = async () => {
 };
 
 // ==============================
-// Get Active Academic Years
+// Get Follow Ups By Staff
 // ==============================
 
-export const getActiveAcademicYears = async () => {
+export const getFollowUpsByStaff = async (
+  staffId
+) => {
 
   const response = await api.get(
-    "/academic-years/status/ACTIVE"
+    `/admission-follow-ups/staff/${staffId}`
   );
 
   return response.data;
@@ -126,19 +130,15 @@ export const getActiveAcademicYears = async () => {
 };
 
 // ==============================
-// Update Academic Year Status
+// Get Follow Ups By Response Status
 // ==============================
 
-export const updateAcademicYearStatus = async (
-  id,
+export const getFollowUpsByStatus = async (
   status
 ) => {
 
-  const response = await api.patch(
-    `/academic-years/${id}/status`,
-    {
-      status
-    }
+  const response = await api.get(
+    `/admission-follow-ups/status/${status}`
   );
 
   return response.data;

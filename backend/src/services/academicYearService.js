@@ -4,20 +4,34 @@ const {
   getAcademicYearsBySchool,
   getAcademicYearById,
   updateAcademicYear,
-  deleteAcademicYear
-} = require(
-  "../repositories/academicYearRepository"
-);
+  deleteAcademicYear,
+  checkDuplicateAcademicYear,
+  getCurrentAcademicYear
+} = require("../repositories/academicYearRepository");
+const createAcademicYearService = async (data) => {
 
-const createAcademicYearService =
-async (data) => {
+  data.status = data.status || "active";
 
-  data.status =
-    data.status || "active";
+  if (data.start_date >= data.end_date) {
+    throw new Error(
+      "Start Date must be before End Date"
+    );
+  }
 
-  return await createAcademicYear(
-    data
-  );
+  const duplicate =
+    await checkDuplicateAcademicYear(
+      data.school_id,
+      data.branch_id,
+      data.academic_year_name
+    );
+
+  if (duplicate.length > 0) {
+    throw new Error(
+      "Academic Year already exists"
+    );
+  }
+
+  return await createAcademicYear(data);
 
 };
 
@@ -62,6 +76,12 @@ async (
   id,
   data
 ) => {
+
+  if (data.start_date >= data.end_date) {
+    throw new Error(
+      "Start Date must be before End Date"
+    );
+  }
 
   return await updateAcademicYear(
     id,

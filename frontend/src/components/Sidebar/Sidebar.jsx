@@ -16,10 +16,11 @@ import {
   Moon,
   Sun,
   BookOpen,
-  CalendarDays,
-  FileText,
-  Clock3,
-    Languages
+CalendarDays,
+FileText,
+Clock3,
+Languages,
+Package
 } from "lucide-react";
 
 import {
@@ -404,6 +405,59 @@ localStorage.getItem("role") || "";
 
 )}
 
+{(role === "SUPER_ADMIN" ||
+  role === "SCHOOL_ADMIN") && (
+
+<>
+  <li>
+    <Link
+      to="/academic-years"
+      className={linkClass("/academic-years")}
+      onClick={() => setIsOpen(false)}
+    >
+      <CalendarDays size={20} />
+      Academic Years
+    </Link>
+  </li>
+
+  <li>
+    <Link
+      to="/admission-inquiry"
+      className={linkClass("/admission-inquiry")}
+      onClick={() => setIsOpen(false)}
+    >
+      <FileText size={20} />
+      Admission Inquiry
+    </Link>
+  </li>
+
+  <li>
+    <Link
+      to="/admission-follow-up"
+      className={linkClass("/admission-follow-up")}
+      onClick={() => setIsOpen(false)}
+    >
+      <Clock3 size={20} />
+      Admission Follow Up
+    </Link>
+  </li>
+
+  <li>
+    <Link
+      to="/achievement"
+      className={linkClass("/achievement")}
+      onClick={() => setIsOpen(false)}
+    >
+      <BookOpen size={20} />
+      Achievement
+    </Link>
+  </li>
+</>
+
+)}
+
+
+
             <li>
               <Link
                 to="/attendance"
@@ -463,6 +517,48 @@ localStorage.getItem("role") || "";
     <CreditCard size={20} />
     Fee Collection
   </Link>
+</li>
+
+)}
+
+{(role === "SUPER_ADMIN" ||
+  role === "SCHOOL_ADMIN") && (
+
+<li>
+
+  <Link
+    to="/library-fine-payments"
+    className={linkClass("/library-fine-payments")}
+    onClick={() => setIsOpen(false)}
+  >
+
+    <CreditCard size={20} />
+
+    Library Fine Payments
+
+  </Link>
+
+</li>
+
+)}
+
+{(role === "SUPER_ADMIN" ||
+  role === "SCHOOL_ADMIN") && (
+
+<li>
+
+  <Link
+    to="/lost-and-found"
+    className={linkClass("/lost-and-found")}
+    onClick={() => setIsOpen(false)}
+  >
+
+    <Package size={20} />
+
+    Lost And Found
+
+  </Link>
+
 </li>
 
 )}

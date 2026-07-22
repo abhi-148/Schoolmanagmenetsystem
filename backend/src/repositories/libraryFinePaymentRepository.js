@@ -114,8 +114,14 @@ const getLibraryFinePaymentById = async (
 
     FROM tbl_library_fine_payments lfp
 
-    LEFT JOIN student s
-      ON lfp.student_id = s.id
+  LEFT JOIN student st
+ON lfp.student_id = st.id
+
+LEFT JOIN staff cb
+ON lfp.created_by = cb.id
+
+LEFT JOIN staff ub
+ON lfp.updated_by = ub.id
 
     LEFT JOIN school sc
       ON lfp.school_id = sc.id

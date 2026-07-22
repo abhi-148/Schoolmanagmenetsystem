@@ -6,17 +6,24 @@ const createAcademicYear = async (data) => {
   const [result] = await pool.query(
     `
     INSERT INTO academic_years
-    (
-      academic_year_name,
-      start_date,
-      end_date,
-      status,
-      created_by
-    )
-    VALUES (?, ?, ?, ?, ?)
+(
+school_id,
+branch_id,
+academic_year_name,
+semester,
+start_date,
+end_date,
+is_current,
+status,
+created_by
+)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `,
     [
+      data.school_id,
+      data.branch_id,
       data.academic_year_name,
+      data.semester,
       data.start_date,
       data.end_date,
       data.status,
@@ -32,9 +39,16 @@ const getAllAcademicYears = async () => {
 
   const [rows] = await pool.query(
     `
-    SELECT *
-    FROM academic_years
-    ORDER BY id DESC
+  SELECT
+ay.*,
+s.school_name,
+sb.branch_name
+FROM academic_years ay
+LEFT JOIN school s
+ON ay.school_id = s.id
+LEFT JOIN school_branches sb
+ON ay.branch_id = sb.id
+ORDER BY ay.id DESC
     `
   );
 
@@ -46,9 +60,16 @@ const getAcademicYearById = async (id) => {
 
   const [rows] = await pool.query(
     `
-    SELECT *
-    FROM academic_years
-    WHERE id = ?
+    SELECT
+      ay.*,
+      s.school_name,
+      sb.branch_name
+    FROM academic_years ay
+    LEFT JOIN school s
+    ON ay.school_id = s.id
+    LEFT JOIN school_branches sb
+    ON ay.branch_id = sb.id
+    WHERE ay.id = ?
     `,
     [id]
   );
@@ -107,10 +128,17 @@ const getAcademicYearsBySchool = async (
 
   const [rows] = await pool.query(
     `
-    SELECT *
-    FROM academic_years
-    WHERE school_id = ?
-    ORDER BY id DESC
+    SELECT
+      ay.*,
+      s.school_name,
+      sb.branch_name
+    FROM academic_years ay
+    LEFT JOIN school s
+    ON ay.school_id = s.id
+    LEFT JOIN school_branches sb
+    ON ay.branch_id = sb.id
+    WHERE ay.school_id = ?
+    ORDER BY ay.id DESC
     `,
     [schoolId]
   );
@@ -118,11 +146,51 @@ const getAcademicYearsBySchool = async (
   return rows;
 
 };
+
+const checkDuplicateAcademicYear = async (
+  schoolId,
+  branchId,
+  academicYearName
+) => {
+  const [rows] = await pool.query(
+    `
+    SELECT id
+    FROM academic_years
+    WHERE school_id = ?
+      AND branch_id = ?
+      AND academic_year_name = ?
+    `,
+    [schoolId, branchId, academicYearName]
+  );
+
+  return rows;
+};
+
+
+const getCurrentAcademicYear = async (
+  schoolId,
+  branchId
+) => {
+  const [rows] = await pool.query(
+    `
+    SELECT *
+    FROM academic_years
+    WHERE school_id = ?
+      AND branch_id = ?
+      AND is_current = 1
+    `,
+    [schoolId, branchId]
+  );
+
+  return rows;
+};
 module.exports = {
   createAcademicYear,
   getAllAcademicYears,
   getAcademicYearsBySchool,
   getAcademicYearById,
   updateAcademicYear,
-  deleteAcademicYear
+  deleteAcademicYear,
+  checkDuplicateAcademicYear,
+  getCurrentAcademicYear
 };

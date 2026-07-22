@@ -4,6 +4,8 @@ const router = express.Router();
 
 const authMiddleware =
 require("../middlewares/authMiddleware");
+const authorizeRoles =
+require("../middlewares/roleMiddleware");
 
 const validate =
 require("../middlewares/validationMiddleware");
@@ -11,6 +13,8 @@ require("../middlewares/validationMiddleware");
 const {
   createLibraryFinePaymentValidation
 } = require("../validators/libraryFinePaymentValidator");
+const upload =
+require("../middlewares/uploadMiddleware");
 
 const {
   createLibraryFinePayment,
@@ -30,6 +34,11 @@ const {
 router.post(
   "/",
   authMiddleware,
+  authorizeRoles(
+    "SUPER_ADMIN",
+    "SCHOOL_ADMIN"
+  ),
+  upload.single("receipt"),
   createLibraryFinePaymentValidation,
   validate,
   createLibraryFinePayment
@@ -39,6 +48,11 @@ router.post(
 router.get(
   "/",
   authMiddleware,
+  authorizeRoles(
+    "SUPER_ADMIN",
+    "SCHOOL_ADMIN",
+    "STAFF"
+  ),
   getAllLibraryFinePayments
 );
 
@@ -46,6 +60,11 @@ router.get(
 router.get(
   "/pagination",
   authMiddleware,
+  authorizeRoles(
+    "SUPER_ADMIN",
+    "SCHOOL_ADMIN",
+    "STAFF"
+  ),
   getLibraryFinePaymentsWithPagination
 );
 
@@ -53,6 +72,11 @@ router.get(
 router.get(
   "/search",
   authMiddleware,
+  authorizeRoles(
+    "SUPER_ADMIN",
+    "SCHOOL_ADMIN",
+    "STAFF"
+  ),
   searchLibraryFinePayments
 );
 
@@ -60,6 +84,11 @@ router.get(
 router.get(
   "/:id",
   authMiddleware,
+  authorizeRoles(
+    "SUPER_ADMIN",
+    "SCHOOL_ADMIN",
+    "STAFF"
+  ),
   getLibraryFinePaymentById
 );
 
@@ -67,6 +96,11 @@ router.get(
 router.put(
   "/:id",
   authMiddleware,
+  authorizeRoles(
+    "SUPER_ADMIN",
+    "SCHOOL_ADMIN"
+  ),
+  upload.single("receipt"),
   createLibraryFinePaymentValidation,
   validate,
   updateLibraryFinePayment
@@ -76,6 +110,10 @@ router.put(
 router.patch(
   "/:id/status",
   authMiddleware,
+  authorizeRoles(
+    "SUPER_ADMIN",
+    "SCHOOL_ADMIN"
+  ),
   updateLibraryFinePaymentStatus
 );
 

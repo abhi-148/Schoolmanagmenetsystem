@@ -16,8 +16,17 @@ const createLibraryFinePayment = async (
 
   try {
 
+    if (req.file) {
+
+  req.body.receipt_path =
+    `/uploads/receipts/${req.file.filename}`;
+
+}
+
     const result =
       await createLibraryFinePaymentService(
+
+        
         req.body
       );
 
@@ -109,6 +118,13 @@ const updateLibraryFinePayment = async (
 ) => {
 
   try {
+
+    if (req.file) {
+
+  req.body.receipt_path =
+    `/uploads/receipts/${req.file.filename}`;
+
+}
 
     await updateLibraryFinePaymentService(
       req.params.id,

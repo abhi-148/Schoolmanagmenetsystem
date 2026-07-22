@@ -51,6 +51,19 @@ import EditTimeTableSubstitution from "../pages/TimeTableSubstitution/EditTimeTa
 import ViewTimeTableSubstitution from "../pages/TimeTableSubstitution/ViewTimeTableSubstitution";
 import SchoolTransfer from "../pages/SchoolTransfer/SchoolTransfer";
 import BranchTransfer from "../pages/BranchTransfer/BranchTransfer";
+import LibraryFinePayment from "../pages/LibraryFinePayment/LibraryFinePayment";
+import AddLibraryFinePayment from "../pages/LibraryFinePayment/AddLibraryFinePayment";
+import EditLibraryFinePayment from "../pages/LibraryFinePayment/EditLibraryFinePayment";
+import ViewLibraryFinePayment from "../pages/LibraryFinePayment/ViewLibraryFinePayment";
+import LostAndFound from "../pages/LostAndFound/LostAndFound";
+import AddLostAndFound from "../pages/LostAndFound/AddLostAndFound";
+import EditLostAndFound from "../pages/LostAndFound/EditLostAndFound";
+import ViewLostAndFound from "../pages/LostAndFound/ViewLostAndFound";
+import AcademicYears from "../pages/academicYears/AcademicYears";
+import AdmissionInquiry from "../pages/admissionInquiry/AdmissionInquiry";
+import AdmissionFollowUp from "../pages/admissionFollowUp/AdmissionFollowUp";
+import Achievement from "../pages/achievement/Achievement";
+
 import PrivateRoute from "./PrivateRoute";
 
 function AppRoutes() {
@@ -156,6 +169,78 @@ function AppRoutes() {
             </PrivateRoute>
           }
         />
+
+        <Route
+  path="/library-fine-payments"
+  element={
+    <PrivateRoute>
+      <LibraryFinePayment />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/library-fine-payments/add"
+  element={
+    <PrivateRoute>
+      <AddLibraryFinePayment />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/library-fine-payments/edit/:id"
+  element={
+    <PrivateRoute>
+      <EditLibraryFinePayment />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/library-fine-payments/view/:id"
+  element={
+    <PrivateRoute>
+      <ViewLibraryFinePayment />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/lost-and-found"
+  element={
+    <PrivateRoute>
+      <LostAndFound />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/lost-and-found/add"
+  element={
+    <PrivateRoute>
+      <AddLostAndFound />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/lost-and-found/edit/:id"
+  element={
+    <PrivateRoute>
+      <EditLostAndFound />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/lost-and-found/view/:id"
+  element={
+    <PrivateRoute>
+      <ViewLostAndFound />
+    </PrivateRoute>
+  }
+/>
 
         <Route
           path="/profile"
@@ -454,6 +539,42 @@ function AppRoutes() {
   element={
     <PrivateRoute>
       <BranchTransfer />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/academic-years"
+  element={
+    <PrivateRoute>
+      <AcademicYears />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/admission-inquiry"
+  element={
+    <PrivateRoute>
+      <AdmissionInquiry />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/admission-follow-up"
+  element={
+    <PrivateRoute>
+      <AdmissionFollowUp />
+    </PrivateRoute>
+  }
+/>
+
+<Route
+  path="/achievement"
+  element={
+    <PrivateRoute>
+      <Achievement />
     </PrivateRoute>
   }
 />

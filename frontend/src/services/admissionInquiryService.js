@@ -1,13 +1,13 @@
 import api from "./api";
 
 // ==============================
-// Get All Academic Years
+// Get All Admission Inquiries
 // ==============================
 
-export const getAcademicYears = async () => {
+export const getAdmissionInquiries = async () => {
 
   const response = await api.get(
-    "/academic-years"
+    "/admission-inquiries"
   );
 
   return response.data;
@@ -15,15 +15,15 @@ export const getAcademicYears = async () => {
 };
 
 // ==============================
-// Get Academic Year By Id
+// Get Admission Inquiry By Id
 // ==============================
 
-export const getAcademicYearById = async (
+export const getAdmissionInquiryById = async (
   id
 ) => {
 
   const response = await api.get(
-    `/academic-years/${id}`
+    `/admission-inquiries/${id}`
   );
 
   return response.data;
@@ -31,15 +31,15 @@ export const getAcademicYearById = async (
 };
 
 // ==============================
-// Create Academic Year
+// Create Admission Inquiry
 // ==============================
 
-export const createAcademicYear = async (
+export const createAdmissionInquiry = async (
   data
 ) => {
 
   const response = await api.post(
-    "/academic-years",
+    "/admission-inquiries",
     data
   );
 
@@ -48,16 +48,16 @@ export const createAcademicYear = async (
 };
 
 // ==============================
-// Update Academic Year
+// Update Admission Inquiry
 // ==============================
 
-export const updateAcademicYear = async (
+export const updateAdmissionInquiry = async (
   id,
   data
 ) => {
 
   const response = await api.put(
-    `/academic-years/${id}`,
+    `/admission-inquiries/${id}`,
     data
   );
 
@@ -66,15 +66,15 @@ export const updateAcademicYear = async (
 };
 
 // ==============================
-// Delete Academic Year
+// Delete Admission Inquiry
 // ==============================
 
-export const deleteAcademicYear = async (
+export const deleteAdmissionInquiry = async (
   id
 ) => {
 
   const response = await api.delete(
-    `/academic-years/${id}`
+    `/admission-inquiries/${id}`
   );
 
   return response.data;
@@ -82,15 +82,15 @@ export const deleteAcademicYear = async (
 };
 
 // ==============================
-// Search Academic Years
+// Search Admission Inquiry
 // ==============================
 
-export const searchAcademicYears = async (
+export const searchAdmissionInquiry = async (
   keyword
 ) => {
 
   const response = await api.get(
-    `/academic-years/search?keyword=${keyword}`
+    `/admission-inquiries/search?keyword=${keyword}`
   );
 
   return response.data;
@@ -98,47 +98,31 @@ export const searchAcademicYears = async (
 };
 
 // ==============================
-// Get Current Academic Year
+// Get Admission Inquiry By Status
 // ==============================
 
-export const getCurrentAcademicYear = async () => {
-
-  const response = await api.get(
-    "/academic-years/current"
-  );
-
-  return response.data;
-
-};
-
-// ==============================
-// Get Active Academic Years
-// ==============================
-
-export const getActiveAcademicYears = async () => {
-
-  const response = await api.get(
-    "/academic-years/status/ACTIVE"
-  );
-
-  return response.data;
-
-};
-
-// ==============================
-// Update Academic Year Status
-// ==============================
-
-export const updateAcademicYearStatus = async (
-  id,
+export const getAdmissionInquiryByStatus = async (
   status
 ) => {
 
-  const response = await api.patch(
-    `/academic-years/${id}/status`,
-    {
-      status
-    }
+  const response = await api.get(
+    `/admission-inquiries/status/${status}`
+  );
+
+  return response.data;
+
+};
+
+// ==============================
+// Get Admission Inquiry By Assigned Staff
+// ==============================
+
+export const getAdmissionInquiryByAssignedStaff = async (
+  staffId
+) => {
+
+  const response = await api.get(
+    `/admission-inquiries/staff/${staffId}`
   );
 
   return response.data;

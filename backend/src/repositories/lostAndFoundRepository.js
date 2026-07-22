@@ -23,10 +23,12 @@ const createLostAndFound = async (
       claimed_by_staff_id,
       claimed_by_student_id,
       record_status,
+      image_path,
       created_by,
       updated_by
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES
+    (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `,
     [
       itemData.school_id,
@@ -39,10 +41,11 @@ const createLostAndFound = async (
       itemData.found_by_staff_id,
       itemData.found_by_student_id,
       itemData.status,
-      itemData.claimed_datetime,
-      itemData.claimed_by_staff_id,
-      itemData.claimed_by_student_id,
+      itemData.claimed_datetime || null,
+      itemData.claimed_by_staff_id || null,
+      itemData.claimed_by_student_id || null,
       itemData.record_status,
+      itemData.image_path || null,
       itemData.created_by,
       itemData.updated_by
     ]
@@ -208,7 +211,7 @@ const updateLostAndFound = async (
       data.found_by_staff_id,
       data.found_by_student_id,
       data.status,
-      data.claimed_datetime,
+      data.claimed_datetime || null,
       data.claimed_by_staff_id,
       data.claimed_by_student_id,
       data.updated_by,

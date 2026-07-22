@@ -1,10 +1,17 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(
+  "/uploads",
+  express.static(
+    path.join(__dirname, "uploads")
+  )
+);
 
 // Routes
 const authRoutes = require("./src/routes/authRoutes");
@@ -157,6 +164,17 @@ const schoolTransferRoutes = require(
 const branchTransferRoutes = require(
   "./src/routes/branchTransferRoutes"
 );
+
+const admissionInquiryRoutes = require(
+  "./src/routes/admissionInquiryRoutes"
+);
+
+const achievementRoutes = require(
+  "./src/routes/achievementRoutes"
+);
+
+const admissionFollowUpRoutes = require("./src/routes/admissionFollowUpRoutes");
+
 
 // Health Check
 app.get("/", (req, res) => {
@@ -334,6 +352,22 @@ app.use(
 app.use(
   "/api/profile",
   profileRoutes
+);
+
+
+app.use(
+  "/api/admission-inquiries",
+  admissionInquiryRoutes
+);
+
+app.use(
+  "/api/achievements",
+  achievementRoutes
+);
+
+app.use(
+    "/api/admission-follow-ups",
+    admissionFollowUpRoutes
 );
 
 

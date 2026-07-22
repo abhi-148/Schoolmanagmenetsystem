@@ -8,77 +8,74 @@ const {
   searchLostAndFound
 } = require("../repositories/lostAndFoundRepository");
 
+// ===============================
 // Create Lost And Found
-const createLostAndFoundService = async (
-  itemData
-) => {
-
-  itemData.record_status = "ACTIVE";
+// ===============================
+const createLostAndFoundService = async (itemData) => {
 
   if (!itemData.status) {
     itemData.status = "UNCLAIMED";
   }
 
-  await createLostAndFound(
-    itemData
-  );
+  if (!itemData.record_status) {
+    itemData.record_status = "ACTIVE";
+  }
+
+  await createLostAndFound(itemData);
 
   return {
-    message:
-      "Lost And Found Item Created Successfully"
+    success: true,
+    message: "Lost And Found Item Created Successfully"
   };
 
 };
 
+// ===============================
 // Get All
-const getAllLostAndFoundService =
-async () => {
+// ===============================
+const getAllLostAndFoundService = async () => {
 
   return await getAllLostAndFound();
 
 };
 
+// ===============================
 // Get By Id
-const getLostAndFoundByIdService =
-async (id) => {
+// ===============================
+const getLostAndFoundByIdService = async (id) => {
 
-  return await getLostAndFoundById(
-    id
-  );
+  return await getLostAndFoundById(id);
 
 };
 
+// ===============================
 // Update
-const updateLostAndFoundService =
-async (
+// ===============================
+const updateLostAndFoundService = async (
   id,
   data
 ) => {
 
-  return await updateLostAndFound(
-    id,
-    data
-  );
+  return await updateLostAndFound(id, data);
 
 };
 
+// ===============================
 // Update Status
-const updateLostAndFoundStatusService =
-async (
+// ===============================
+const updateLostAndFoundStatusService = async (
   id,
   status
 ) => {
 
-  return await updateLostAndFoundStatus(
-    id,
-    status
-  );
+  return await updateLostAndFoundStatus(id, status);
 
 };
 
+// ===============================
 // Pagination
-const getLostAndFoundWithPaginationService =
-async (
+// ===============================
+const getLostAndFoundWithPaginationService = async (
   limit,
   offset
 ) => {
@@ -90,15 +87,14 @@ async (
 
 };
 
+// ===============================
 // Search
-const searchLostAndFoundService =
-async (
+// ===============================
+const searchLostAndFoundService = async (
   search
 ) => {
 
-  return await searchLostAndFound(
-    search
-  );
+  return await searchLostAndFound(search);
 
 };
 

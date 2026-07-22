@@ -16,6 +16,13 @@ const createLostAndFound = async (
 
   try {
 
+    if (req.file) {
+
+  req.body.image_path =
+    `/uploads/lost-found/${req.file.filename}`;
+
+}
+
     const result =
       await createLostAndFoundService(
         req.body
@@ -109,6 +116,13 @@ const updateLostAndFound = async (
 ) => {
 
   try {
+
+    if (req.file) {
+
+  req.body.image_path =
+    `/uploads/lost-found/${req.file.filename}`;
+
+}
 
     await updateLostAndFoundService(
       req.params.id,

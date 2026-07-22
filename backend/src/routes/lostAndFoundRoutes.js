@@ -5,12 +5,18 @@ const router = express.Router();
 const authMiddleware =
 require("../middlewares/authMiddleware");
 
+const authorizeRoles =
+require("../middlewares/roleMiddleware");
+
 const validate =
 require("../middlewares/validationMiddleware");
 
 const {
   createLostAndFoundValidation
 } = require("../validators/lostAndFoundValidator");
+
+const upload =
+require("../middlewares/uploadMiddleware");
 
 const {
   createLostAndFound,
@@ -30,6 +36,7 @@ const {
 router.post(
   "/",
   authMiddleware,
+  upload.single("image"),   // <-- validation se pehle
   createLostAndFoundValidation,
   validate,
   createLostAndFound
@@ -39,6 +46,11 @@ router.post(
 router.get(
   "/",
   authMiddleware,
+  authorizeRoles(
+    "SUPER_ADMIN",
+    "SCHOOL_ADMIN",
+    "STAFF"
+  ),
   getAllLostAndFound
 );
 
@@ -46,6 +58,11 @@ router.get(
 router.get(
   "/pagination",
   authMiddleware,
+  authorizeRoles(
+    "SUPER_ADMIN",
+    "SCHOOL_ADMIN",
+    "STAFF"
+  ),
   getLostAndFoundWithPagination
 );
 
@@ -53,6 +70,11 @@ router.get(
 router.get(
   "/search",
   authMiddleware,
+  authorizeRoles(
+    "SUPER_ADMIN",
+    "SCHOOL_ADMIN",
+    "STAFF"
+  ),
   searchLostAndFound
 );
 
@@ -60,6 +82,11 @@ router.get(
 router.get(
   "/:id",
   authMiddleware,
+  authorizeRoles(
+    "SUPER_ADMIN",
+    "SCHOOL_ADMIN",
+    "STAFF"
+  ),
   getLostAndFoundById
 );
 
@@ -67,6 +94,11 @@ router.get(
 router.put(
   "/:id",
   authMiddleware,
+  authorizeRoles(
+    "SUPER_ADMIN",
+    "SCHOOL_ADMIN"
+  ),
+  upload.single("image"),
   createLostAndFoundValidation,
   validate,
   updateLostAndFound
@@ -76,6 +108,10 @@ router.put(
 router.patch(
   "/:id/status",
   authMiddleware,
+  authorizeRoles(
+    "SUPER_ADMIN",
+    "SCHOOL_ADMIN"
+  ),
   updateLostAndFoundStatus
 );
 
